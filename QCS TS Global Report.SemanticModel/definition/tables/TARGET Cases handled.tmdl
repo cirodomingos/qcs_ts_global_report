@@ -1,0 +1,29 @@
+table 'TARGET Cases handled'
+	lineageTag: 8edb1cf5-ea9d-4ae7-b882-7e7df35e67ba
+
+	measure 'TARGET MAX of cases handled' = 1
+		formatString: 0
+		lineageTag: cc8c3c36-1b6c-4261-bc7b-20c36c4dcb55
+
+	column 'target of cases handled within 46h (%)'
+		dataType: double
+		formatString: 0
+		lineageTag: e0f56025-88a9-4c0e-a0b8-6607a66af3b9
+		summarizeBy: sum
+		sourceColumn: target of cases handled within 46h (%)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'TARGET Cases handled' = m
+		mode: import
+		queryGroup: '02 Final Tables'
+		source =
+				let
+				    Source = #"LOAD TARGET Cases handled"
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

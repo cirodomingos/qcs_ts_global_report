@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "6f26f6061d6a90bd6260",
+  "position": {
+    "x": 25.910931174089068,
+    "y": 610,
+    "z": 7000,
+    "height": 100.44342395373533,
+    "width": 699.99999999999989,
+    "tabOrder": 14000
+  },
+  "visualGroup": {
+    "displayName": "LCV",
+    "groupMode": "ScaleMode"
+  }
+}

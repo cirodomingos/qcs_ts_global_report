@@ -1,0 +1,40 @@
+table Market
+	lineageTag: 41ce1e2b-4d9e-4ddc-9c62-d8d3598aa383
+
+	column 'Cust-Rep Dealer Country'
+		dataType: string
+		lineageTag: 6bf198bb-cf63-40c7-92e0-b81e2654729f
+		summarizeBy: none
+		sourceColumn: Cust-Rep Dealer Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MARKET name'
+		dataType: string
+		lineageTag: 87a75fe9-64d0-41ad-9717-b55d47b196b8
+		summarizeBy: none
+		sourceColumn: MARKET name
+
+		annotation SummarizationSetBy = Automatic
+
+	column MARKET
+		dataType: string
+		lineageTag: f7e1dda4-7275-4a02-83ae-cc6b417b2a23
+		summarizeBy: none
+		sourceColumn: MARKET
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Market = m
+		mode: import
+		queryGroup: '02 Final Tables'
+		source =
+				let
+				    Source = #"LOAD Market"
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

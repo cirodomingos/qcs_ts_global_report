@@ -1,0 +1,30 @@
+table 'Grey area ratio'
+	lineageTag: 4d0a2fbf-333a-4767-92e2-74b387a47217
+
+	measure 'Grey area ratio Value' = SELECTEDVALUE('Grey area ratio'[Grey area ratio])
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 5190d367-17d8-4b98-acd3-719b89acc089
+
+	measure 'Grey area ratio MAX' = 1
+		formatString: 0\ %;-0\ %;0\ %
+		lineageTag: aaee64ea-1ce8-4b1c-953d-8f06d5fd9d47
+
+	column 'Grey area ratio'
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: bdc64403-1430-47b9-b6a0-d17c8f2f145b
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition 'Grey area ratio' = calculated
+		mode: import
+		source = GENERATESERIES(0, 1, 0.05)
+
+	annotation PBI_Id = eaa6533489e44dd0acbb5e3e1f933e4f
+

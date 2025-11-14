@@ -1,0 +1,50 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: fr-FR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup '02 Final Tables'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup '00 LOAD Tables'
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation PBI_QueryOrder = ["Argus Audit","Argus SR","Calendar","Market","TARGET Cases handled","LOAD Argus Audit","LOAD Argus SR","LOAD Calendar","LOAD Market","LOAD TARGET Cases handled","LOAD TARGET Leadtime","LOAD Teams","LOAD Technical Service Members","TARGET Leadtime","Teams","Technical Service Members","BTN Grey Area","KPI","PARAM","LOAD Argus SR Technique Europe","Argus SR Technique Europe"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DateTableTemplate_81a0af3d-179e-420f-83d7-eae80bc122dc
+ref table PARAM
+ref table LocalDateTable_81998c2b-75b7-4cde-a371-58cbbaa22a21
+ref table LocalDateTable_0c31c4e1-828c-46d3-8e43-44e255971f87
+ref table 'Argus SR'
+ref table Calendar
+ref table LocalDateTable_d0b27302-74ab-4530-8dc4-142d7fce56e0
+ref table 'TARGET Leadtime'
+ref table 'TARGET Cases handled'
+ref table Teams
+ref table 'Grey area ratio'
+ref table KPI
+ref table 'Time Axis'
+ref table 'Argus Audit'
+ref table LocalDateTable_deeece99-9a38-4ca2-be81-3c10828f64f4
+ref table 'BTN Grey Area'
+ref table 'Technical Service Members'
+ref table Market
+ref table 'TARGET Escalation Ratio'
+ref table LocalDateTable_fbfebe3c-af11-4cd2-8ff5-121caf7ef4da
+ref table LocalDateTable_41f23168-10c4-421e-b225-fe49d08a9c55
+ref table 'Argus SR Technique Europe'
+ref table LocalDateTable_b29f05a6-6545-4f37-8531-d28514b2a341
+ref table LocalDateTable_578fd245-435c-423c-a0e1-17c33b35a101
+ref table LocalDateTable_9eb60f43-c60b-43d2-b42c-cd4c2f3c053c
+
+ref cultureInfo en-US
+

@@ -1,0 +1,68 @@
+relationship b48286cd-0f85-4327-9892-67fad73b2cec
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PARAM.Diff_days
+	toColumn: LocalDateTable_81998c2b-75b7-4cde-a371-58cbbaa22a21.Date
+
+relationship edef94d8-8cc3-4e6b-aa23-850c8230ab74
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PARAM.'Last update date'
+	toColumn: LocalDateTable_0c31c4e1-828c-46d3-8e43-44e255971f87.Date
+
+relationship 330a377a-e0bb-47a9-9667-f4716e62475a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.Date
+	toColumn: LocalDateTable_d0b27302-74ab-4530-8dc4-142d7fce56e0.Date
+
+relationship 18bc3081-78ed-3a36-3b5c-3608b601a916
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'Argus SR'.Commodity
+	toColumn: Teams.'Sub Teams'
+
+relationship 5d1b1849-b8ee-4122-bbce-e7d328291580
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Argus Audit'.'Change Date'
+	toColumn: LocalDateTable_deeece99-9a38-4ca2-be81-3c10828f64f4.Date
+
+relationship AutoDetected_9e423023-d32c-4c4f-b089-173aa97774d9
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'Argus Audit'.'SR Number'
+	toColumn: 'Argus SR'.'SR Number'
+
+relationship 06158f40-ffd9-42aa-1923-8d7d7f348ab5
+	fromColumn: 'Argus Audit'.'Audit Owner Full Name'
+	toColumn: 'Technical Service Members'.Member
+
+relationship AutoDetected_6d3b75d7-cfe5-435e-bf50-7ed5b41f2573
+	fromColumn: 'Argus SR'.'Cust-Rep Dealer Country'
+	toColumn: Market.'Cust-Rep Dealer Country'
+
+relationship 34d580ca-999b-4359-9f2a-66b8a1e2a97a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Technical Service Members'.'Start date'
+	toColumn: LocalDateTable_fbfebe3c-af11-4cd2-8ff5-121caf7ef4da.Date
+
+relationship 2e09441a-eff5-455a-bbae-0ba56790b698
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Technical Service Members'.'End date'
+	toColumn: LocalDateTable_41f23168-10c4-421e-b225-fe49d08a9c55.Date
+
+relationship 974bba0b-e081-4524-a3e0-376893c77836
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Argus SR Technique Europe'.'Creation Date'
+	toColumn: LocalDateTable_b29f05a6-6545-4f37-8531-d28514b2a341.Date
+
+relationship 378bb1ed-93b1-402b-9b86-5542f3bf7233
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Argus SR'.'Close Date'
+	toColumn: LocalDateTable_578fd245-435c-423c-a0e1-17c33b35a101.Date
+
+relationship 828cbb27-cffd-4b4c-9379-d0018fc67ced
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Argus SR'.'Creation Date'
+	toColumn: LocalDateTable_9eb60f43-c60b-43d2-b42c-cd4c2f3c053c.Date
+
+relationship 16c108ed-598f-6366-099a-a5f8e7d00258
+	isActive: false
+	fromColumn: 'Argus SR'.'Creation Date linked to Calendar'
+	toColumn: Calendar.Date
+

@@ -1,0 +1,216 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 120.24546667414465,
+        "y": 11.391675790182125
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 1141.5714285714284,
+            "y": 0
+          },
+          "nodeIndex": "PARAM",
+          "nodeLineageTag": "b39221bd-3578-403d-948e-4b3dbc23b23b",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 356.5,
+            "y": 306.86160714285722
+          },
+          "nodeIndex": "Argus SR",
+          "nodeLineageTag": "09ce3e44-1031-4e20-bc84-f5f5de8272df",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 754.07142857142844,
+            "y": 6.3058035714285552
+          },
+          "nodeIndex": "Argus Audit",
+          "nodeLineageTag": "4e034534-39c5-46ee-88f2-9ef4fcdd3ddf",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 9
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "Calendar",
+          "nodeLineageTag": "d970bfad-a5ca-4887-aed3-d95ebec9f388",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 1142.8214285714284,
+            "y": 123.55580357142856
+          },
+          "nodeIndex": "TARGET Cases handled",
+          "nodeLineageTag": "8edb1cf5-ea9d-4ae7-b882-7e7df35e67ba",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 10
+        },
+        {
+          "location": {
+            "x": 1141.8214285714284,
+            "y": 246.05580357142856
+          },
+          "nodeIndex": "TARGET Leadtime",
+          "nodeLineageTag": "a7144f2f-5907-4687-b623-9728782b2ae3",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 11
+        },
+        {
+          "location": {
+            "x": 0,
+            "y": 652.05580357142856
+          },
+          "nodeIndex": "Teams",
+          "nodeLineageTag": "db9a5bad-0306-4b7a-b934-0dd602193442",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 12
+        },
+        {
+          "location": {
+            "x": 1480.8214285714284,
+            "y": 243.77790178571428
+          },
+          "nodeIndex": "KPI",
+          "nodeLineageTag": "d8d7e8c3-9993-4c8e-a6ad-a363c4798c85",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 1479.8214285714284,
+            "y": 372.27790178571428
+          },
+          "nodeIndex": "Time Axis",
+          "nodeLineageTag": "eafc0d38-c3eb-46a4-a557-9fbc9574c542",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 1483.8214285714284,
+            "y": 562.52790178571422
+          },
+          "nodeIndex": "BTN Grey Area",
+          "nodeLineageTag": "5965c1fa-3410-44ce-ac20-2e38020954d1",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1475.5714285714284,
+            "y": 0
+          },
+          "nodeIndex": "Grey area ratio",
+          "nodeLineageTag": "4d0a2fbf-333a-4767-92e2-74b387a47217",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 322.82142857142844,
+            "y": 0
+          },
+          "nodeIndex": "Technical Service Members",
+          "nodeLineageTag": "18cb6606-554c-4d6e-9373-9c542034344a",
+          "size": {
+            "height": 152,
+            "width": 310
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 851.57142857142844,
+            "y": 563.52790178571422
+          },
+          "nodeIndex": "Market",
+          "nodeLineageTag": "41ce1e2b-4d9e-4ddc-9c62-d8d3598aa383",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 1767.8214285714284,
+            "y": 361.80580357142856
+          },
+          "nodeIndex": "TARGET Escalation Ratio",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 270.57142857142844,
+            "y": 672.13895089285711
+          },
+          "nodeIndex": "Argus SR Technique Europe",
+          "nodeLineageTag": "f6b87a24-c13b-41bb-9c4b-73c152ceb0a5",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 79.005057427605323,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "fa7fd5d9e1a5d633bd79",
+  "position": {
+    "x": 322.8235294117647,
+    "y": 210.8235294117647,
+    "z": 0,
+    "height": 326.58823529411762,
+    "width": 633.41176470588232
+  },
+  "visual": {
+    "visualType": "pieChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Argus SR"
+                    }
+                  },
+                  "Property": "Product Class"
+                }
+              },
+              "queryRef": "Argus SR.Product Class",
+              "nativeQueryRef": "Product Class",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Argus SR"
+                        }
+                      },
+                      "Property": "SR Number"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(Argus SR.SR Number)",
+              "nativeQueryRef": "Count of SR Number"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Argus SR"
+                      }
+                    },
+                    "Property": "SR Number"
+                  }
+                },
+                "Function": 5
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

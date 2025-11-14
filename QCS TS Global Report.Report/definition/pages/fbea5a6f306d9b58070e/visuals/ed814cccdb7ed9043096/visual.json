@@ -1,0 +1,407 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "ed814cccdb7ed9043096",
+  "position": {
+    "x": 1043.8163816381639,
+    "y": 289.18091809180919,
+    "z": 9000,
+    "height": 230.42304230423042,
+    "width": 236.18361836183618,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "Tachometer1474636471549",
+    "query": {
+      "queryState": {
+        "EndValue": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TARGET Escalation Ratio"
+                    }
+                  },
+                  "Property": "MAX Escalation Ratio"
+                }
+              },
+              "queryRef": "TARGET Escalation Ratio.MAX Escalation Ratio",
+              "nativeQueryRef": "MAX Escalation Ratio"
+            }
+          ]
+        },
+        "StartValue": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TARGET Escalation Ratio"
+                    }
+                  },
+                  "Property": "min Escalation Ratio"
+                }
+              },
+              "queryRef": "TARGET Escalation Ratio.min Escalation Ratio",
+              "nativeQueryRef": "min Escalation Ratio"
+            }
+          ]
+        },
+        "Range3StartValue": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TARGET Escalation Ratio"
+                    }
+                  },
+                  "Property": "CLASS 2 Escalation Ratio"
+                }
+              },
+              "queryRef": "TARGET Escalation Ratio.CLASS 2 Escalation Ratio",
+              "nativeQueryRef": "CLASS 2 Escalation Ratio"
+            }
+          ]
+        },
+        "Range2StartValue": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "TARGET Escalation Ratio"
+                    }
+                  },
+                  "Property": "CLASS 1 Escalation Ratio"
+                }
+              },
+              "queryRef": "TARGET Escalation Ratio.CLASS 1 Escalation Ratio",
+              "nativeQueryRef": "CLASS 1 Escalation Ratio"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Argus SR Technique Europe"
+                        }
+                      },
+                      "Property": "Escalation Ratio"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Sum(Argus SR Technique Europe.Escalation Ratio)",
+              "nativeQueryRef": "Average of Escalation Ratio"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Argus SR Technique Europe"
+                      }
+                    },
+                    "Property": "Escalation Ratio"
+                  }
+                },
+                "Function": 1
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "range1": [
+        {
+          "properties": {
+            "rangeColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 6,
+                      "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "range2": [
+        {
+          "properties": {
+            "rangeColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#EEE14A'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "range3": [
+        {
+          "properties": {
+            "rangeColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#F06A6A'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "indicator": [
+        {
+          "properties": {
+            "pointerColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "pointerSizeFactor": {
+              "expr": {
+                "Literal": {
+                  "Value": "80D"
+                }
+              }
+            },
+            "baseThicknessFactor": {
+              "expr": {
+                "Literal": {
+                  "Value": "50D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "7f74bd02812bc9c5084d",
+        "ordinal": 0,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "TARGET Escalation Ratio"
+              }
+            },
+            "Property": "CLASS 1 Escalation Ratio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9be23eba2a46d81a84a0",
+        "ordinal": 1,
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Argus SR Technique Europe"
+              }
+            },
+            "Property": "COMPANY_ARGUS"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "a",
+              "Entity": "Argus SR Technique Europe",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "a"
+                          }
+                        },
+                        "Property": "COMPANY_ARGUS"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Renault Trucks'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User",
+        "isHiddenInViewMode": true,
+        "isLockedInViewMode": true
+      },
+      {
+        "name": "5a64a9e88a396960ab88",
+        "ordinal": 2,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "TARGET Escalation Ratio"
+              }
+            },
+            "Property": "CLASS 2 Escalation Ratio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "98a86fa60b210067c752",
+        "ordinal": 3,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "TARGET Escalation Ratio"
+              }
+            },
+            "Property": "MAX Escalation Ratio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "08d0419f519119606c3b",
+        "ordinal": 4,
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "TARGET Escalation Ratio"
+              }
+            },
+            "Property": "min Escalation Ratio"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "efb761d635e17303d179",
+        "ordinal": 5,
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Argus SR Technique Europe"
+                  }
+                },
+                "Property": "Escalation Ratio"
+              }
+            },
+            "Function": 1
+          }
+        },
+        "type": "Advanced"
+      }
+    ],
+    "filterSortOrder": "Custom"
+  }
+}

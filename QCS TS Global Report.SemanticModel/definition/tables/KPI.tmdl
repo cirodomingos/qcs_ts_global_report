@@ -1,0 +1,1040 @@
+table KPI
+	lineageTag: d8d7e8c3-9993-4c8e-a6ad-a363c4798c85
+
+	measure 'Average Leadtime (h)' =
+			
+			VAR tempLeadtime =
+			        ADDCOLUMNS(
+			            SUMMARIZE('Argus Audit', 'Argus Audit'[SR Number], 'Argus SR'[Creation Date]),
+			            "QueuedTime", [Queued time (h)],
+			            "AcceptedTime", [Accepted time (h)]
+			            )
+			    VAR vLeadTime = ADDCOLUMNS(tempLeadtime, "Leadtime", [QueuedTime] + [AcceptedTime])
+			RETURN AVERAGEX(vLeadTime, [Leadtime])
+		displayFolder: Leadtime
+		lineageTag: 747f0441-b601-48f3-9a1d-b291d9c01352
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Queued time (h)' = AVERAGE('Argus SR'[Total Audit Queued Time])
+		displayFolder: Queued time
+		lineageTag: 8a6f002e-4218-472e-910a-b3a3617c530b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Accepted time (h)' = AVERAGEX(SUMMARIZE('Argus Audit', 'Argus Audit'[SR Number], "Total Accepted time", SUM('Argus Audit'[Accepted Time (hrs)])), [Total Accepted time])
+		displayFolder: Accepted time
+		lineageTag: 51961850-694a-47ba-9d54-a308fd49bbc6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Waiting time' = AVERAGEX(SUMMARIZE('Argus Audit', 'Argus Audit'[SR Number], "Total Waiting time", SUM('Argus Audit'[Waiting time])), [Total Waiting time])
+		displayFolder: Waiting time
+		lineageTag: 5e5ba686-66d0-47af-bd60-d3f21301d23e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TXT SR Type-Vehicle Type' = IF(ISFILTERED('Argus SR'[SR Type]), SELECTEDVALUE('Argus SR'[SR Type]), "All SR Type") & " / " & IF(ISFILTERED('Argus SR'[Vehicle Type]), SELECTEDVALUE('Argus SR'[Vehicle Type]), "All Vehicle Type")
+		displayFolder: Visualization
+		lineageTag: b4cdb77b-c576-4ce9-8b28-e83fa2dc7762
+
+	measure 'TXT Title chart 3' = "% of cases handled within " & SELECTEDVALUE('TARGET Leadtime'[Leadtime target (h)]) & "h"
+		displayFolder: Visualization
+		lineageTag: 213dd8aa-1509-4c05-bb30-84a9b111a177
+
+	measure 'Avg leadtime Last mature point' =
+			
+			CALCULATE(
+			    [Average Leadtime (h)],
+			    KEEPFILTERS(
+			        DATESBETWEEN(
+			            'Argus SR'[Creation Date],
+			            DATE(YEAR([Last mature point]), MONTH([Last mature point]), 1),
+			            EOMONTH([Last mature point], 0)
+			        ))
+			)
+		formatString: 0.0
+		displayFolder: Leadtime
+		lineageTag: f2a3bb55-79eb-4812-a535-551c1afb34e2
+
+	measure 'Avg leadtime LMP-4M' =
+			
+			VAR LastMaturePoint = [Last mature point]
+			VAR StartDate = EOMONTH(LastMaturePoint, -5) + 1
+			VAR EndDate = EOMONTH(LastMaturePoint, -4)
+			
+			RETURN
+			    CALCULATE(
+			        [Average Leadtime (h)],
+			        'Argus SR'[Creation Date] >= StartDate,
+			        'Argus SR'[Creation Date] <= EndDate
+			    )
+		displayFolder: Leadtime
+		lineageTag: d9e7a3d3-937e-4f8c-a9fc-cd0071bd7138
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Nb SR opened (Creation date)' = DISTINCTCOUNT('Argus SR'[SR Number])
+		formatString: #,0
+		displayFolder: Nb SR
+		lineageTag: e4d5dae6-93e4-45e0-a7d1-d0a109c74b19
+
+	measure 'TXT YYYY-Mmm Last mature point' = "Creation date " & UNICHAR(10) & FORMAT([Last mature point], "YYYY - Mmm")
+		displayFolder: Visualization
+		lineageTag: 7d2deac7-2383-4fe3-b5b1-547a2c1b82db
+
+	measure 'Avg queued time LMP' =
+			
+			CALCULATE(
+			    [Average Queued time (h)],
+			    DATESBETWEEN(
+			        'Argus SR'[Creation Date],
+			        DATE(YEAR([Last mature point]), MONTH([Last mature point]), 1),
+			        EOMONTH([Last mature point], 0)
+			    )
+			)
+		formatString: 0.0
+		displayFolder: Queued time
+		lineageTag: 0868e3e8-5211-4559-8e88-d97912acc6e2
+
+	measure 'Avg accepted time Last mature point' =
+			
+			CALCULATE(
+			    [Average Accepted time (h)],
+			    DATESBETWEEN(
+			        'Argus SR'[Creation Date],
+			        DATE(YEAR([Last mature point]), MONTH([Last mature point]), 1),
+			        EOMONTH([Last mature point], 0)
+			    )
+			)
+		formatString: 0.0
+		displayFolder: Accepted time
+		lineageTag: 3bb68128-c95f-4d2b-b77d-43a5709295e3
+
+	measure 'Avg waiting time LMP' =
+			
+			CALCULATE(
+			    [Average Waiting time],
+			    DATESBETWEEN(
+			        'Argus SR'[Creation Date],
+			        DATE(YEAR([Last mature point]), MONTH([Last mature point]), 1),
+			        EOMONTH([Last mature point], 0)
+			    )
+			)
+		formatString: 0.0
+		displayFolder: Waiting time
+		lineageTag: eb352d5b-bb50-4ff9-ba1d-4b34583c9365
+
+	measure 'Avg queued time LMP-4M' =
+			
+			VAR LastMaturePoint = [Last mature point]
+			VAR StartDate = EOMONTH(LastMaturePoint, -5) + 1
+			VAR EndDate = EOMONTH(LastMaturePoint, -4)
+			
+			RETURN
+			    CALCULATE(
+			        [Average Queued time (h)],
+			        'Argus SR'[Creation Date] >= StartDate,
+			        'Argus SR'[Creation Date] <= EndDate
+			    )
+		displayFolder: Queued time
+		lineageTag: dbec1243-79ae-4a63-b2e4-ee0e4efafd1d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg waiting time LMP-4M' =
+			
+			VAR LastMaturePoint = [Last mature point]
+			VAR StartDate = EOMONTH(LastMaturePoint, -5) + 1
+			VAR EndDate = EOMONTH(LastMaturePoint, -4)
+			
+			RETURN
+			    CALCULATE(
+			        [Average Waiting time],
+			        'Argus SR'[Creation Date] >= StartDate,
+			        'Argus SR'[Creation Date] <= EndDate
+			    )
+		displayFolder: Waiting time
+		lineageTag: 721cdac9-c89b-4b31-99d7-a6d68c113c16
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TXT Title Commodity' = ```
+			
+			    VAR SelTable = VALUES('Technical Service Members'[Commodity Site])
+			    VAR SelectedCount = COUNTROWS(SelTable)
+			    VAR TotalCount = CALCULATE(
+			                        DISTINCTCOUNT('Technical Service Members'[Commodity Site]),
+			                        ALL('Technical Service Members'[Commodity Site]))
+			    VAR First3 = TOPN(3, SelTable, 'Technical Service Members'[Commodity Site], ASC)
+			    VAR First3Text = CONCATENATEX(First3, 'Technical Service Members'[Commodity Site], ", ")
+			    VAR OthersCount = IF(SelectedCount > 3, SelectedCount - 3, 0)
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        NOT ISFILTERED('Technical Service Members'[Commodity Site]), "All Commodities",
+			        SelectedCount = TotalCount, "All Commodities",
+			        SelectedCount <= 3, First3Text,
+			        SelectedCount > 3, First3Text & " and " & OthersCount & " others"
+			    )
+			```
+		displayFolder: Visualization
+		lineageTag: ffff7986-f8e8-404b-b4f7-b72eed3e4b48
+
+	measure 'Nb SR opened (Last mature point)' =
+			
+			CALCULATE(
+			    [Nb SR opened (Creation date)],
+			    KEEPFILTERS(
+			        DATESBETWEEN(
+			            'Argus SR'[Creation Date],
+			            DATE(YEAR([Last mature point]), MONTH([Last mature point]), 1),
+			            EOMONTH([Last mature point], 0)
+			        ))
+			)
+		formatString: #,0
+		displayFolder: Nb SR
+		lineageTag: 971f42c7-7a3c-406a-9c0e-2c3833d778bf
+
+	measure 'Nb SR Status Open' = CALCULATE([Nb SR opened (Creation date)], KEEPFILTERS(FILTER('Argus SR', 'Argus SR'[Close Date]=BLANK())))
+		formatString: #,0
+		displayFolder: Nb SR
+		lineageTag: afee2a72-6ea2-4947-b052-46347a76a97d
+
+	measure 'Nb SR Status Closed' = CALCULATE([Nb SR opened (Creation date)], KEEPFILTERS(FILTER('Argus SR', 'Argus SR'[Status]="Closed")))
+		formatString: #,0
+		displayFolder: Nb SR
+		lineageTag: 22032c96-fb58-4cea-b4f3-579e55b8fd4e
+
+	measure '% SR Status Closed' = DIVIDE([Nb SR Status Closed], [Nb SR opened (Creation date)])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Nb SR
+		lineageTag: 16d496d2-bb8c-47be-ba1e-68dcba654211
+
+	measure 'Last mature point' = ```
+			
+			MAXX(
+			    FILTER(
+			        VALUES('Argus SR'[Creation Date YYYY-MM]),
+			        [% SR Status Closed] > 'Grey area ratio'[Grey area ratio Value]
+			    ),
+			    DATE(LEFT('Argus SR'[Creation Date YYYY-MM],4), RIGHT('Argus SR'[Creation Date YYYY-MM], 2), 1)
+			)
+			
+			```
+		formatString: Short Date
+		displayFolder: Visualization
+		lineageTag: 04e425fc-4ea0-41ac-8470-5dd5afa05a68
+
+	measure 'Nb SR below target' = ```
+			CALCULATE(DISTINCTCOUNT('Argus SR'[SR Number]), FILTER('Argus SR', 'Argus SR'[Leadtime below target]=1))
+			/* version 2
+			VAR targetLeadtime = MAX('TARGET Leadtime'[Leadtime target (h)])
+			VAR SRsAvecLeadtime =
+			    ADDCOLUMNS(
+			        VALUES('Argus SR'[SR Number]),
+			        "TotalLeadtime",
+			        CALCULATE(
+			            AVERAGEX(SUMMARIZE('Argus Audit', 'Argus Audit'[SR Number], "Total Leadtime", SUM('Argus Audit'[Lead Time])), [Total Leadtime]),
+			            TREATAS({[SR Number]}, 'Argus Audit'[SR Number])
+			        )
+			    )
+			RETURN 
+			CALCULATE(
+			    DISTINCTCOUNT('Argus SR'[SR Number]),
+			    TREATAS(
+			        SELECTCOLUMNS(
+			            FILTER(SRsAvecLeadtime, [TotalLeadtime] <= targetLeadtime),
+			            "SR Number", [SR Number]
+			        ),
+			        'Argus SR'[SR Number]
+			    )
+			)*/
+			```
+		formatString: 0
+		displayFolder: Nb SR
+		lineageTag: f7b9bdf7-0f20-4331-a8ef-109d601fa682
+
+	measure '% SR with Leadtime below target' = DIVIDE([Nb SR below target], [Nb SR opened (Creation date)])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Leadtime
+		lineageTag: a5c366bb-e6ad-4027-a622-0d08db836f39
+
+	measure 'MAX Leadtime target' = MAX('TARGET Leadtime'[Leadtime target (h)])
+		formatString: 0
+		displayFolder: Leadtime
+		lineageTag: 0869a389-6682-4c40-a69e-963785af1562
+
+	measure 'Reference Date' = SELECTEDVALUE(PARAM[Last update date])
+		formatString: General Date
+		displayFolder: Visualization
+		lineageTag: 51545d6b-f46e-4caa-a7d5-d5041d0f12af
+
+	measure '% SR with Leadtime below target LMP' = ```
+			
+			    VAR vResult = DIVIDE([Nb SR below Target (Last mature point)], [Nb SR opened (Last mature point)])
+			RETURN COALESCE(vResult, 0)
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Leadtime
+		lineageTag: dbcfc7d2-c257-4d50-9d2b-a5c03e174eef
+
+	measure 'Δ SR with Leadtime below target long term evolution' = ```
+			
+			    VAR vResult = ([% SR with Leadtime below target CY] - [% SR with Leadtime below target PY])*100
+			RETURN COALESCE(vResult, 0)
+			```
+		formatString: 0.0
+		displayFolder: Leadtime
+		lineageTag: 8d1b712e-0048-4740-a0cb-5d276df5844d
+
+	measure 'Δ SR with Leadtime below target short term evolution' = ```
+			
+			    VAR vResult = ([% SR with Leadtime below target CQ] - [% SR with Leadtime below target PQ])*100
+			RETURN COALESCE(vResult, 0)
+			```
+		formatString: 0.0
+		displayFolder: Leadtime
+		lineageTag: 0fe98285-c7f8-4794-97a8-8babb10ddb9b
+
+	measure 'Leadtime (h)' = [Accepted time (h)] + [Queued time (h)]
+		displayFolder: Leadtime
+		lineageTag: 56f3138c-cbb0-4f40-ad74-e2f1b4199a27
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Accepted time (h)' = SUM('Argus Audit'[Accepted Time (hrs)])
+		displayFolder: Accepted time
+		lineageTag: 6b0b3faf-cbe9-485a-ada2-1e4ed4ae84d0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Queued time (h)' = CALCULATE(SUM('Argus SR'[Total Audit Queued Time]), ALL('Technical Service Members'))
+		displayFolder: Queued time
+		lineageTag: 530ae485-af69-40aa-bbe0-bea276ff5184
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Waiting time (h)' = SUm('Argus Audit'[Waiting time])
+		displayFolder: Waiting time
+		lineageTag: ebf50b69-f91b-494c-8a7d-2b20622b0a85
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Nb SR cumul CY' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, 0 )
+			    RETURN
+			    CALCULATE (
+			        [Nb SR opened (Creation date)],
+			        --DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -12, MONTH)
+			        DATESINPERIOD ('Argus SR'[Creation Date], MaxDate, -12, MONTH)
+			    )
+			```
+		formatString: #,0
+		displayFolder: Nb SR
+		lineageTag: ce69a526-be58-479e-98cc-8ea68364588b
+
+	measure 'Nb SR cumul PY' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, -12 )
+			    RETURN
+			    CALCULATE (
+			        [Nb SR opened (Creation date)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -12, MONTH)
+			    )
+			```
+		formatString: #,0
+		displayFolder: Nb SR
+		lineageTag: cf0d73fe-a7a0-4d81-bd1a-ba51ae701974
+
+	measure '% SR long term evolution' = DIVIDE([Nb SR cumul CY]-[Nb SR cumul PY], [Nb SR cumul PY])
+		formatString: #,0.0\ %;-#,0.0\ %;#,0.0\ %
+		displayFolder: Nb SR
+		lineageTag: 20fbab8c-cd07-4002-a2cc-2d9e097139e3
+
+	measure 'Nb SR cumul CQ' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    RETURN
+			    CALCULATE (
+			        [Nb SR opened (Creation date)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], MaxDate, -3, MONTH),
+			        REMOVEFILTERS('Argus SR'[Creation Date YYYY-Mmm])
+			    )
+			```
+		formatString: 0
+		displayFolder: Nb SR
+		lineageTag: 4f684f81-2de9-4b2f-b28e-9d4b1e0b3d27
+
+	measure 'Nb SR cumul PQ' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, -3 )
+			    RETURN
+			    CALCULATE (
+			        [Nb SR opened (Creation date)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -3, MONTH),
+			        REMOVEFILTERS('Argus SR'[Creation Date YYYY-Mmm])
+			    )
+			```
+		formatString: #,0
+		displayFolder: Nb SR
+		lineageTag: 84c6a14d-5bdb-4d04-9a4d-327a422cef05
+
+	measure '% SR short term evolution' = DIVIDE([Nb SR cumul CQ]-[Nb SR cumul PQ], [Nb SR cumul PQ])
+		formatString: #,0.0\ %;-#,0.0\ %;#,0.0\ %
+		displayFolder: Nb SR
+		lineageTag: cd1b8434-92a0-40ed-b632-974fe63d1637
+
+	measure 'Avg Leadtime 12M N' = DIVIDE(CALCULATE([Leadtime (h)], DATESINPERIOD('Argus SR'[Creation Date], [Reference Date], -12, MONTH)),[Nb SR cumul CY])
+		displayFolder: Leadtime
+		lineageTag: 02762203-7eb9-456b-b66a-b2dc085eb897
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg waiting for customer (h)' = AVERAGEX(SUMMARIZE('Argus Audit', 'Argus Audit'[SR Number], "Total Waiting time", SUM('Argus Audit'[Waiting for customer])), [Total Waiting time])
+		displayFolder: Waiting time
+		lineageTag: 813c0d0d-85e3-4728-b771-b2534559bb4c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg waiting for correction (h)' = AVERAGEX(SUMMARIZE('Argus Audit', 'Argus Audit'[SR Number], "Total Waiting time", SUM('Argus Audit'[Waiting for correction])), [Total Waiting time])
+		displayFolder: Waiting time
+		lineageTag: 89b6758d-f68d-4cc8-82a7-3ea737f805ca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg waiting for information (h)' = AVERAGEX(SUMMARIZE('Argus Audit', 'Argus Audit'[SR Number], "Total Waiting time", SUM('Argus Audit'[Waiting for information])), [Total Waiting time])
+		displayFolder: Waiting time
+		lineageTag: c8357d37-9770-41d1-98eb-cbaa9c02570d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg waiting for supplier (h)' = AVERAGEX(SUMMARIZE('Argus Audit', 'Argus Audit'[SR Number], "Total Waiting time", SUM('Argus Audit'[Waiting for supplier])), [Total Waiting time])
+		displayFolder: Waiting time
+		lineageTag: aea6c401-4162-4579-be23-a0415641cc6a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TXT Title Site' =
+			
+			IF(ISFILTERED('Technical Service Members'[Site]) || DISTINCTCOUNT('Technical Service Members'[Site]) <> CALCULATE(DISTINCTCOUNT('Technical Service Members'[Site]), ALL('Technical Service Members')),
+			    CONCATENATEX(VALUES('Technical Service Members'[Site]), 'Technical Service Members'[Site], ", "),
+			    "All Sites")
+		displayFolder: Visualization
+		lineageTag: 99311196-be2d-4c70-8841-a238e6fd7a06
+
+	measure 'TXT Title Team' =
+			
+			IF(ISFILTERED('Technical Service Members'[Team Site]) || DISTINCTCOUNT('Technical Service Members'[Team Site]) <> CALCULATE(DISTINCTCOUNT('Technical Service Members'[Team Site]), ALL('Technical Service Members')),
+			    CONCATENATEX(VALUES('Technical Service Members'[Team Site]), 'Technical Service Members'[Team Site], ", "),
+			    "All Teams")
+		displayFolder: Visualization
+		lineageTag: 2a935e6f-6646-4438-85ee-3364c51bf9ad
+
+	measure 'TXT MHDV Service (YYYY-Mmm)' = "MHDV Service (" & MAX('Argus SR'[Creation Date YYYY-Mmm]) & ")"
+		displayFolder: Visualization
+		lineageTag: ee78415a-0693-4522-a8d6-42e8b1c9e6d8
+
+	measure 'TXT MHDV Service ICE (YYYY-Mmm)' = "MHDV Service ICE (" & MAX('Argus SR'[Creation Date YYYY-Mmm]) & ")"
+		displayFolder: Visualization
+		lineageTag: b44bfdaa-ba80-425b-92a4-4b9955ec6ef4
+
+	measure 'TXT MHDV Service BEV (YYYY-Mmm)' = "MHDV Service BEV ("& MAX('Argus SR'[Creation Date YYYY-Mmm]) & ")"
+		displayFolder: Visualization
+		lineageTag: bc8deb39-5819-4fc6-a8bc-3faf7c9fb381
+
+	measure 'TXT MHDV Rebuilding (YYYY-Mmm)' = "MHDV Rebuilding (" & MAX('Argus SR'[Creation Date YYYY-Mmm]) & ")"
+		displayFolder: Visualization
+		lineageTag: 4a5e7f32-e320-4e3e-958b-fbd92379d088
+
+	measure 'TXT LCV (YYYY-Mmm)' = "LCV (" & MAX('Argus SR'[Creation Date YYYY-Mmm]) & ")"
+		displayFolder: Visualization
+		lineageTag: 0070280a-259c-4fc6-a6bb-57b5b7b923ae
+
+	measure 'TXT Escalation Ratio (YYYY-Mmm)' = "Escalation Ratio (" & MAX('Argus SR'[Creation Date YYYY-Mmm]) & ")"
+		displayFolder: Visualization
+		lineageTag: ec9c3145-b039-4370-b3a8-c60b66948a2f
+
+	measure 'KPI+TXT Nb SR' = [Nb SR opened (Creation date)] & " SR"
+		displayFolder: Visualization
+		lineageTag: 603410ac-9759-46a7-9ccc-01737593460b
+
+	measure 'KPI+TXT Nb SR short term evol' = "(" & FORMAT([% SR short term evolution], "0.0%") & ")"
+		displayFolder: Visualization
+		lineageTag: 451d4323-300f-445b-8262-a4a72258e0ce
+
+	measure 'Avg leadtime cumul CQ' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    RETURN
+			    CALCULATE (
+			        [Average Leadtime (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], MaxDate, -3, MONTH),
+			        REMOVEFILTERS('Argus SR'[Creation Date YYYY-Mmm])
+			    )
+			```
+		formatString: #,0.00
+		displayFolder: Leadtime
+		lineageTag: 0af10d22-161b-4557-832f-601c938889cb
+
+	measure 'Avg Leadtime cumul PQ' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, -3 )
+			    RETURN CALCULATE (
+			        [Average Leadtime (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -3, MONTH),
+			        REMOVEFILTERS('Argus SR'[Creation Date YYYY-Mmm])
+			    )
+			```
+		displayFolder: Leadtime
+		lineageTag: 96ade470-e3ef-4a76-be8a-56eb8e459651
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Avg leadtime short term evolution' = DIVIDE([Avg leadtime cumul CQ]-[Avg leadtime cumul PQ], [Avg leadtime cumul PQ])
+		formatString: #,0.0\ %;-#,0.0\ %;#,0.0\ %
+		displayFolder: Leadtime
+		lineageTag: ede33db6-357e-44a8-b4b6-6a58b0ecb67f
+
+	measure 'KPI+TXT Avg leadtime short term evol' = "(" & FORMAT([% Avg leadtime short term evolution], "0.0%") & ")"
+		displayFolder: Visualization
+		lineageTag: 5d25157a-23fb-4bf8-aaa6-b1f387a0847a
+
+	measure 'Avg Leadtime cumul CY' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, 0 )
+			    RETURN
+			    CALCULATE (
+			        [Average Leadtime (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], MaxDate, -12, MONTH)
+			    )
+			```
+		displayFolder: Leadtime
+		lineageTag: 64b5c8a2-f558-4a71-9e40-5d34eb0ed059
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Leadtime cumul PY' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, -12 )
+			    RETURN
+			    CALCULATE (
+			        [Average Leadtime (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -12, MONTH)
+			    )
+			```
+		displayFolder: Leadtime
+		lineageTag: 753b0f51-4df0-462d-9cc6-e0b2c08ccdc0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Avg leadtime long term evolution' = DIVIDE([Avg leadtime cumul CY]-[Avg Leadtime cumul PY], [Avg Leadtime cumul PY])
+		formatString: #,0.0\ %;-#,0.0\ %;#,0.0\ %
+		displayFolder: Leadtime
+		lineageTag: 529a763f-fb8f-4d3d-a2b8-701c3c467dac
+
+	measure 'Avg Acc time cumul CY' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, 0 )
+			    RETURN
+			    CALCULATE (
+			        [Average Accepted time (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], MaxDate, -12, MONTH)
+			    )
+			```
+		formatString: #,0.00
+		displayFolder: Accepted time
+		lineageTag: 1f417684-a8bc-4264-8822-a067f6c2b7e1
+
+	measure 'Avg Acc time cumul PY' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, -12 )
+			    RETURN
+			    CALCULATE (
+			        [Average Accepted time (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -12, MONTH)
+			    )
+			```
+		formatString: #,0.00
+		displayFolder: Accepted time
+		lineageTag: 91665494-b564-4ab2-afc3-9b33b1366b72
+
+	measure 'Avg Acc time cumul CQ' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    RETURN
+			    CALCULATE (
+			        [Average Accepted time (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], MaxDate, -3, MONTH)
+			    )
+			```
+		formatString: #,0.00
+		displayFolder: Accepted time
+		lineageTag: 86053a87-afba-4654-9006-29bec7378813
+
+	measure 'Avg Acc time cumul PQ' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, -3 )
+			    RETURN
+			    CALCULATE (
+			        [Average Accepted time (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -3, MONTH)
+			    )
+			```
+		formatString: #,0.00
+		displayFolder: Accepted time
+		lineageTag: 0b49c5ba-7944-40fc-aa2d-a6a6de1c7464
+
+	measure '% Avg Acc time short term evolution' = DIVIDE([Avg Acc time cumul CQ]-[Avg Acc time cumul PQ], [Avg Acc time cumul PQ])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Accepted time
+		lineageTag: a02e55f2-e1b3-48a2-84f0-b442c9b3cdf4
+
+	measure '% Avg Acc time long term evolution' = DIVIDE([Avg Acc time cumul CY]-[Avg Acc time cumul PY], [Avg Acc time cumul PY])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Accepted time
+		lineageTag: b7309a42-1df3-4a59-9361-cd10e6aa2049
+
+	measure 'Avg Wait time cumul CY' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, 0 )
+			    RETURN
+			    CALCULATE (
+			        [Average Waiting time],
+			        DATESINPERIOD ('Argus SR'[Creation Date], MaxDate, -12, MONTH)
+			    )
+			```
+		displayFolder: Waiting time
+		lineageTag: efd98383-214d-4faf-b38a-f27c84c9d2cd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Wait time cumul PY' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, -12 )
+			    RETURN
+			    CALCULATE (
+			        [Average Waiting time],
+			        DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -12, MONTH)
+			    )
+			```
+		displayFolder: Waiting time
+		lineageTag: 999f084a-147b-432a-ab4f-b4b784f94ac7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Wait time cumul CQ' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    RETURN
+			    CALCULATE (
+			        [Average Waiting time],
+			        DATESINPERIOD ('Argus SR'[Creation Date], MaxDate, -3, MONTH)
+			    )
+			```
+		displayFolder: Waiting time
+		lineageTag: 48728272-480b-44b8-a77b-dc7c7aea1b12
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Wait time cumul PQ' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, -3 )
+			    RETURN
+			    CALCULATE (
+			        [Average Waiting time],
+			        DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -3, MONTH)
+			    )
+			```
+		displayFolder: Waiting time
+		lineageTag: 7ed2c78c-8e6c-40dd-a866-707c16d5a674
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Avg Wait time short term evolution' = DIVIDE([Avg Wait time cumul CQ]-[Avg Wait time cumul PQ], [Avg Wait time cumul PQ])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Waiting time
+		lineageTag: 9d39d14e-79c4-4e73-9fc0-2f721181382d
+
+	measure '% Avg Wait time long term evolution' = DIVIDE([Avg Wait time cumul CY]-[Avg Wait time cumul PY], [Avg Wait time cumul PY])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Waiting time
+		lineageTag: 98074d3f-e9a1-46e0-8839-afff072591f0
+
+	measure 'Avg Queued time cumul CQ' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    RETURN
+			    CALCULATE (
+			        [Average Queued time (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], MaxDate, -3, MONTH)
+			    )
+			```
+		displayFolder: Queued time
+		lineageTag: 9e551e03-e1ff-4c49-b4c0-edeecc0f3c82
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Queued time cumul CY' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, 0 )
+			    RETURN
+			    CALCULATE (
+			        [Average Queued time (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], MaxDate, -12, MONTH)
+			    )
+			```
+		displayFolder: Queued time
+		lineageTag: ada2e931-e2c2-42bb-a0de-68ae71dba7a3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Queued time cumul PQ' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, -3 )
+			    RETURN
+			    CALCULATE (
+			        [Average Queued time (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -3, MONTH)
+			    )
+			```
+		displayFolder: Queued time
+		lineageTag: a00fa996-2fe6-4333-adc7-26c9905d4c47
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Queued time cumul PY' = ```
+			
+			    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    VAR EndOfMaxMonth = EOMONTH ( MaxDate, -12 )
+			    RETURN
+			    CALCULATE (
+			        [Average Queued time (h)],
+			        DATESINPERIOD ('Argus SR'[Creation Date], EndOfMaxMonth, -12, MONTH)
+			    )
+			```
+		displayFolder: Queued time
+		lineageTag: 8ab7f2b2-bdaa-496d-b42b-cca2432fa6ad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Avg Queued time short term evolution' = DIVIDE([Avg Queued time cumul CQ]-[Avg Queued time cumul PQ], [Avg Queued time cumul PQ])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Queued time
+		lineageTag: 7f2a3779-916f-4c34-a8ed-ccd22adcd6c3
+
+	measure '% Avg Queued time long term evolution' = DIVIDE([Avg Queued time cumul CY]-[Avg Queued time cumul PY], [Avg Queued time cumul PY])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Queued time
+		lineageTag: 77306f9b-c5d7-4312-9fdf-4e0db591f817
+
+	measure 'Nb SR below Target (Last mature point)' = ```
+			
+			VAR minLastMaturePoint = [Last mature point]
+			VAR MAXLastMaturePoint = EOMONTH ( [Last mature point], 0 )
+			VAR SRsAvecInfos =
+			    ADDCOLUMNS (
+			        VALUES ( 'Argus SR'[SR Number] ),
+			        "CreationDate", CALCULATE ( MIN ( 'Argus SR'[Creation Date] ) ),
+			        "CloseDate",    CALCULATE ( MIN ( 'Argus SR'[Close Date] ) ),
+			        "AvgLeadtime",  CALCULATE ( AVERAGE ( 'Argus Audit'[Lead Time] ) ),
+			        "FLAG below target", CALCULATE(MAX('Argus SR'[Leadtime below target]))
+			    )
+			VAR SRsFiltrees =
+			    FILTER (
+			        SRsAvecInfos,
+			        -- Creation date in Last mature point month
+			        [CreationDate] >= minLastMaturePoint
+			        && [CreationDate] <= MAXLastMaturePoint
+			        -- below target
+			        && [FLAG below target]=1
+			    )
+			RETURN
+			IF (
+			    ISBLANK ( minLastMaturePoint ) ,
+			    BLANK (),
+			    COUNTROWS ( SRsFiltrees )
+			)
+			
+			```
+		formatString: 0
+		displayFolder: Nb SR
+		lineageTag: d7c5d7d1-75e1-4d44-bab0-73a5fce4223e
+
+	measure 'Nb SR below target CQ' = ```
+			
+			/*    VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			    RETURN
+			    CALCULATE (
+			        [Nb SR opened (Creation date)],
+			            EDATE(MaxDate, -2) <= 'Argus SR'[Creation Date] && 'Argus SR'[Creation Date] <= MaxDate,
+			            'Argus SR'[SR Closed with Leadtime below target]=1
+			    )
+			*/
+			
+			VAR TargetLeadtime = MAX ( 'TARGET Leadtime'[Leadtime target (h)] )
+			VAR MAXLastMaturePoint = EDATE(MAX ( 'Argus SR'[Creation Date] ),0)
+			VAR minLastMaturePoint = EDATE(MAXLastMaturePoint, -3)
+			VAR SRsAvecInfos =
+			    ADDCOLUMNS (
+			        VALUES ( 'Argus SR'[SR Number] ),
+			        "CreationDate", CALCULATE ( MIN ( 'Argus SR'[Creation Date] ) ),
+			        "CloseDate",    CALCULATE ( MIN ( 'Argus SR'[Close Date] ) ),
+			        "AvgLeadtime",  CALCULATE ( AVERAGE ( 'Argus Audit'[Lead Time] ) ),
+			        "FLAG below target", CALCULATE(MAX('Argus SR'[Leadtime below target]))
+			    )
+			VAR SRsFiltrees =
+			    FILTER (
+			        SRsAvecInfos,
+			        -- Creation date in Last mature point month
+			        [CreationDate] >= minLastMaturePoint
+			        && [CreationDate] <= MAXLastMaturePoint
+			        -- below target
+			        && [FLAG below target]=1
+			        --&& [AvgLeadtime] <= TargetLeadtime
+			    )
+			RETURN
+			IF (
+			    OR ( ISBLANK ( TargetLeadtime ), ISBLANK ( minLastMaturePoint ) ),
+			    BLANK (),
+			    COUNTROWS ( SRsFiltrees )
+			)
+			/*
+			VAR TargetLeadtime = MAX('TARGET Leadtime'[Leadtime target (h)])
+			VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			VAR minDate = EDATE(MaxDate, -2)
+			VAR SR_selected =
+			    CALCULATETABLE(
+			        VALUES('Argus SR'[SR Number]), 
+			        FILTER('Argus SR',
+			            -- Creation date in the current quarter
+			            EDATE(MaxDate, -2) <= 'Argus SR'[Creation Date] && 'Argus SR'[Creation Date] <= MaxDate
+			    ))
+			VAR SRsAvecLeadtime =
+			    ADDCOLUMNS(
+			        SR_selected,
+			        "TotalLeadtime",
+			        CALCULATE(
+			            SUM('Argus Audit'[Lead Time]),
+			            TREATAS({[SR Number]}, 'Argus Audit'[SR Number])
+			        )
+			    )
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT('Argus SR'[SR Number]),
+			    TREATAS(
+			        SELECTCOLUMNS(
+			            FILTER(SRsAvecLeadtime, [TotalLeadtime] <= TargetLeadtime),
+			            "SR Number", [SR Number]
+			        ),
+			        'Argus SR'[SR Number]
+			    )
+			)
+			*/
+			```
+		formatString: 0
+		displayFolder: Nb SR
+		lineageTag: 6a903ce3-fdbc-40a0-80d0-ddde0f25a755
+
+	measure 'Nb SR below target CY' =
+			
+			VAR TargetLeadtime = MAX ( 'TARGET Leadtime'[Leadtime target (h)] )
+			VAR MAXLastMaturePoint = EDATE(MAX ( 'Argus SR'[Creation Date] ),0)
+			VAR minLastMaturePoint = EDATE(MAXLastMaturePoint, -12)
+			VAR SRsAvecInfos =
+			    ADDCOLUMNS (
+			        VALUES ( 'Argus SR'[SR Number] ),
+			        "CreationDate", CALCULATE ( MIN ( 'Argus SR'[Creation Date] ) ),
+			        "CloseDate",    CALCULATE ( MIN ( 'Argus SR'[Close Date] ) ),
+			        "AvgLeadtime",  CALCULATE ( AVERAGE ( 'Argus Audit'[Lead Time] ) ),
+			        "FLAG below target", CALCULATE(MAX('Argus SR'[Leadtime below target]))
+			    )
+			VAR SRsFiltrees =
+			    FILTER (
+			        SRsAvecInfos,
+			        -- Creation date in Last mature point month
+			        [CreationDate] >= minLastMaturePoint
+			        && [CreationDate] <= MAXLastMaturePoint
+			        -- below target
+			        && [FLAG below target]=1
+			        --&& [AvgLeadtime] <= TargetLeadtime
+			    )
+			RETURN
+			IF (
+			    OR ( ISBLANK ( TargetLeadtime ), ISBLANK ( minLastMaturePoint ) ),
+			    BLANK (),
+			    COUNTROWS ( SRsFiltrees )
+			)
+		formatString: 0
+		displayFolder: Nb SR
+		lineageTag: ff00c1cc-c6f3-44a5-b3a5-923867213d28
+
+	measure 'Nb SR below target PQ' = ```
+			
+			    VAR TargetLeadtime = MAX ( 'TARGET Leadtime'[Leadtime target (h)] )
+			    VAR MAXLastMaturePoint = EDATE(MAX ( 'Argus SR'[Creation Date] ), -3)
+			    VAR minLastMaturePoint = EDATE(MAXLastMaturePoint, -3)
+			    VAR SRsAvecInfos =
+			        ADDCOLUMNS (
+			            VALUES ( 'Argus SR'[SR Number] ),
+			            "CreationDate", CALCULATE ( MIN ( 'Argus SR'[Creation Date] ) ),
+			            "CloseDate",    CALCULATE ( MIN ( 'Argus SR'[Close Date] ) ),
+			            "AvgLeadtime",  CALCULATE ( AVERAGE ( 'Argus Audit'[Lead Time] ) ),
+			            "FLAG below target", CALCULATE(MAX('Argus SR'[Leadtime below target]))
+			        )
+			    VAR SRsFiltrees =
+			        FILTER (
+			            SRsAvecInfos,
+			            -- Creation date in Last mature point month
+			            [CreationDate] >= minLastMaturePoint
+			            && [CreationDate] <= MAXLastMaturePoint
+			            -- below target
+			            && [FLAG below target]=1
+			            --&& [AvgLeadtime] <= TargetLeadtime
+			        )
+			    RETURN
+			    IF (
+			        OR ( ISBLANK ( TargetLeadtime ), ISBLANK ( minLastMaturePoint ) ),
+			        BLANK (),
+			        COUNTROWS ( SRsFiltrees )
+			    )
+			
+			/*
+			VAR TargetLeadtime = MAX('TARGET Leadtime'[Leadtime target (h)])
+			VAR MaxDate = MAX ( 'Argus SR'[Creation Date] )
+			VAR EndOfMaxMonth = EOMONTH ( MaxDate, -3 )
+			VAR SR_selected =
+			    CALCULATETABLE(
+			        VALUES('Argus SR'[SR Number]), 
+			        FILTER('Argus SR',
+			            -- Creation date in the previous quarter
+			            'Argus SR'[Creation Date] <= MaxDate &&
+			             'Argus SR'[Creation Date] >= EDATE(MaxDate, -3)
+			    ))
+			VAR SRsAvecLeadtime =
+			    ADDCOLUMNS(
+			        SRsCloturees,
+			        "TotalLeadtime",
+			        CALCULATE(
+			            SUM('Argus Audit'[Lead Time]),
+			            TREATAS({[SR Number]}, 'Argus Audit'[SR Number])
+			        )
+			    )
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT('Argus SR'[SR Number]),
+			    TREATAS(
+			        SELECTCOLUMNS(
+			            FILTER(SRsAvecLeadtime, [TotalLeadtime] <= TargetLeadtime),
+			            "SR Number", [SR Number]
+			        ),
+			        'Argus SR'[SR Number]
+			    )
+			)
+			*/
+			```
+		formatString: 0
+		displayFolder: Nb SR
+		lineageTag: 9618e904-7b7f-4676-82df-cf99b2932df4
+
+	measure 'Nb SR below target PY' =
+			
+			VAR TargetLeadtime = MAX ( 'TARGET Leadtime'[Leadtime target (h)] )
+			VAR MAXLastMaturePoint = EDATE(MAX ( 'Argus SR'[Creation Date] ),-12)
+			VAR minLastMaturePoint = EDATE(MAXLastMaturePoint, -12)
+			VAR SRsAvecInfos =
+			    ADDCOLUMNS (
+			        VALUES ( 'Argus SR'[SR Number] ),
+			        "CreationDate", CALCULATE ( MIN ( 'Argus SR'[Creation Date] ) ),
+			        "CloseDate",    CALCULATE ( MIN ( 'Argus SR'[Close Date] ) ),
+			        "AvgLeadtime",  CALCULATE ( AVERAGE ( 'Argus Audit'[Lead Time] ) ),
+			        "FLAG below target", CALCULATE(MAX('Argus SR'[Leadtime below target]))
+			    )
+			VAR SRsFiltrees =
+			    FILTER (
+			        SRsAvecInfos,
+			        -- Creation date in Last mature point month
+			        [CreationDate] >= minLastMaturePoint
+			        && [CreationDate] <= MAXLastMaturePoint
+			        -- below target
+			        && [FLAG below target]=1
+			        --&& [AvgLeadtime] <= TargetLeadtime
+			    )
+			RETURN
+			IF (
+			    OR ( ISBLANK ( TargetLeadtime ), ISBLANK ( minLastMaturePoint ) ),
+			    BLANK (),
+			    COUNTROWS ( SRsFiltrees )
+			)
+		formatString: 0
+		displayFolder: Nb SR
+		lineageTag: d0cd207d-3678-4f4b-913e-73d992ae2ad2
+
+	measure '% SR with Leadtime below target CQ' = ```
+			
+			    DIVIDE([Nb SR below target CQ], [Nb SR cumul CQ])
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Leadtime
+		lineageTag: 22267434-a7fa-4141-b7fc-8571ed26f8c4
+
+	measure '% SR with Leadtime below target PQ' = ```
+			
+			    DIVIDE([Nb SR below target PQ], [Nb SR cumul PQ])
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Leadtime
+		lineageTag: d49760b6-ea69-4199-8827-9f77b62bde9c
+
+	measure '% SR with Leadtime below target CY' = ```
+			
+			    DIVIDE([Nb SR below target CY], [Nb SR cumul CY])
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Leadtime
+		lineageTag: 52ddc4fa-9788-4904-8a0d-d64e0b3c9f2f
+
+	measure '% SR with Leadtime below target PY' = ```
+			
+			    DIVIDE([Nb SR below target PY], [Nb SR cumul PY])
+			```
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		displayFolder: Leadtime
+		lineageTag: 89295e13-afd5-4d20-977f-0360d05c34e6
+
+	measure 'Last mature point TO DISPLAY' = DATE(YEAR([Last mature point]), MONTH(EOMONTH([Last mature point], 1)), 1)
+		formatString: Short Date
+		displayFolder: Visualization
+		lineageTag: 761cd072-12be-4709-8328-3955f5009c84
+
+	measure 'KPI+TXT Avg leadtime' = FORMAT([Average Leadtime (h)], "0.0") & " (hrs)"
+		displayFolder: Visualization
+		lineageTag: 8753f569-55c6-45a8-b73e-2709736071f9
+
+	partition KPI = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

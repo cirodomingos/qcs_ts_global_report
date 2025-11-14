@@ -1,0 +1,40 @@
+table Teams
+	lineageTag: db9a5bad-0306-4b7a-b934-0dd602193442
+
+	column 'Sub Teams'
+		dataType: string
+		lineageTag: 80fc92ac-1087-4a8d-ba30-dd8fa9d9db13
+		summarizeBy: none
+		sourceColumn: Sub Teams
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'graph titles'
+		dataType: string
+		lineageTag: 3f538fa7-a479-4d05-ba65-644971e760e2
+		summarizeBy: none
+		sourceColumn: graph titles
+
+		annotation SummarizationSetBy = Automatic
+
+	column Teams
+		dataType: string
+		lineageTag: cf0e2be3-65ca-4d6f-9398-135adcb6de8f
+		summarizeBy: none
+		sourceColumn: Teams
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Teams = m
+		mode: import
+		queryGroup: '02 Final Tables'
+		source =
+				let
+				    Source = #"LOAD Teams"
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

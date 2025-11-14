@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "f090b5e226e0b10141d2",
+  "position": {
+    "x": 130,
+    "y": 280,
+    "z": 4000,
+    "height": 99.650584533459678,
+    "width": 699.68287906555042,
+    "tabOrder": 5000
+  },
+  "visualGroup": {
+    "displayName": "MHDV Service ICE",
+    "groupMode": "ScaleMode"
+  }
+}

@@ -1,0 +1,112 @@
+table 'Technical Service Members'
+	lineageTag: 18cb6606-554c-4d6e-9373-9c542034344a
+
+	column Site
+		dataType: string
+		lineageTag: 137a68e6-f17a-4ecf-abd8-85d27cd6c11e
+		summarizeBy: none
+		sourceColumn: Site
+
+		annotation SummarizationSetBy = Automatic
+
+	column Team
+		dataType: string
+		lineageTag: 8002b2a5-a4d7-4f47-8ce4-65e8f5159b26
+		summarizeBy: none
+		sourceColumn: Team
+
+		annotation SummarizationSetBy = Automatic
+
+	column Member
+		dataType: string
+		lineageTag: 0ed698a2-50fc-4f6d-9ddc-7dc1590663d8
+		summarizeBy: none
+		sourceColumn: Member
+
+		annotation SummarizationSetBy = Automatic
+
+	column Manager
+		dataType: string
+		lineageTag: 79467f41-f836-4dd4-9a0b-cae91eedfb9c
+		summarizeBy: none
+		sourceColumn: Manager
+
+		annotation SummarizationSetBy = Automatic
+
+	column Commodity
+		dataType: string
+		lineageTag: abdadde5-b76c-42dd-81a9-47d5c3d170f4
+		summarizeBy: none
+		sourceColumn: Commodity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ID Member'
+		dataType: string
+		lineageTag: f7289102-6757-4dc0-8883-044c110fe7b2
+		summarizeBy: none
+		sourceColumn: ID Member
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a32c7a29-534c-428f-aac6-07633cc3fc40
+		summarizeBy: none
+		sourceColumn: Start date
+
+		variation Variation
+			isDefault
+			relationship: 34d580ca-999b-4359-9f2a-66b8a1e2a97a
+			defaultHierarchy: LocalDateTable_fbfebe3c-af11-4cd2-8ff5-121caf7ef4da.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'End date'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c2427aeb-f723-4c08-8380-f628a00363fa
+		summarizeBy: none
+		sourceColumn: End date
+
+		variation Variation
+			isDefault
+			relationship: 2e09441a-eff5-455a-bbae-0ba56790b698
+			defaultHierarchy: LocalDateTable_41f23168-10c4-421e-b225-fe49d08a9c55.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Team Site'
+		dataType: string
+		lineageTag: 14ea9609-315c-4daf-8452-1882592c1f1d
+		summarizeBy: none
+		sourceColumn: Team Site
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Commodity Site'
+		dataType: string
+		lineageTag: ab5d0f26-8fbc-47e8-808b-f307a18867ef
+		summarizeBy: none
+		sourceColumn: Commodity Site
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Technical Service Members' = m
+		mode: import
+		queryGroup: '02 Final Tables'
+		source =
+				let
+				    Source = #"LOAD Technical Service Members"
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

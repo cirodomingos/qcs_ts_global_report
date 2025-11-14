@@ -1,0 +1,147 @@
+table 'Argus SR Technique Europe'
+	lineageTag: f6b87a24-c13b-41bb-9c4b-73c152ceb0a5
+
+	measure 'Avg Escalation Ratio' = AVERAGE('Argus SR Technique Europe'[Escalation Ratio])
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 3cacc8cc-8bf9-43aa-b082-eaef48e76c14
+
+	measure 'MAX AVG Esc. ratio' =
+			
+			VAR AvgByMonth =
+			    ADDCOLUMNS(
+			        VALUES('Argus SR'[Creation Date YYYY-MM]),
+			        "@AvgEscRatio", [AVG Escalation ratio]
+			    )
+			RETURN
+			    MAXX(AvgByMonth, [@AvgEscRatio])*1.5
+		lineageTag: a0fad0c2-510f-456e-849c-56d44d4a45f0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Nb SR Created' = DISTINCTCOUNT('Argus SR Technique Europe'[SR_NUMBER])
+		formatString: #,0
+		lineageTag: 5e522ea1-eec1-4f73-a955-001b2c1cd1c0
+
+	measure 'Nb SR Escalated' = CALCULATE([Nb SR Created], FILTER('Argus SR Technique Europe', 'Argus SR Technique Europe'[Escalation Ratio]>0))
+		formatString: #,0
+		lineageTag: 082c5a34-abbf-4834-8fb2-52df00639c6f
+
+	column SR_NUMBER
+		dataType: string
+		lineageTag: 0cc0c0a7-919c-46f2-ad3c-ab377a4b59d2
+		summarizeBy: none
+		sourceColumn: SR_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column COMPANY_ARGUS
+		dataType: string
+		lineageTag: f5e8f080-4db7-4fc5-9d17-d06e8242f518
+		summarizeBy: none
+		sourceColumn: COMPANY_ARGUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SR Group name'
+		dataType: string
+		lineageTag: 64666b08-2b60-4cc4-b624-e6d2d775a03f
+		summarizeBy: none
+		sourceColumn: SR Group name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Creation Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 8c676c3d-b1c9-434e-bf47-4fddbc0e1bda
+		summarizeBy: none
+		sourceColumn: Creation Date
+
+		variation Variation
+			isDefault
+			relationship: 974bba0b-e081-4524-a3e0-376893c77836
+			defaultHierarchy: LocalDateTable_b29f05a6-6545-4f37-8531-d28514b2a341.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column SR_AREA
+		dataType: string
+		lineageTag: 0c8860aa-80da-4f25-8d92-65344e39fbc0
+		summarizeBy: none
+		sourceColumn: SR_AREA
+
+		annotation SummarizationSetBy = Automatic
+
+	column APP_SERVICE
+		dataType: string
+		lineageTag: d55c205e-bcca-4686-88b8-d2e88a086f9a
+		summarizeBy: none
+		sourceColumn: APP_SERVICE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ESCALATION_VALUE_LEVEL_1_2
+		dataType: int64
+		formatString: 0
+		lineageTag: d438b628-a6ba-4ca0-aca1-60f2aca90a80
+		summarizeBy: sum
+		sourceColumn: ESCALATION_VALUE_LEVEL_1_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Escalation Ratio'
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: cbaccd53-550a-40d0-8b7b-2ae874e635dd
+		summarizeBy: sum
+		sourceColumn: Escalation Ratio
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SR Type'
+		dataType: string
+		lineageTag: d418b10c-030b-4be9-892d-d13f07fbad68
+		summarizeBy: none
+		sourceColumn: SR Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vehicle Type'
+		dataType: string
+		lineageTag: 4021b161-32ac-468b-b173-bb8ffb30b62f
+		summarizeBy: none
+		sourceColumn: Vehicle Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Function Group'
+		dataType: string
+		lineageTag: eeb3e06d-39fb-40a4-ae1e-8e9d4ef68306
+		summarizeBy: none
+		sourceColumn: Function Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Function Group calculated'
+		dataType: string
+		lineageTag: fb41e6a0-b3ce-432b-8b1d-66a5ea5fefc0
+		summarizeBy: none
+		sourceColumn: Function Group calculated
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Argus SR Technique Europe' = m
+		mode: import
+		queryGroup: '02 Final Tables'
+		source =
+				let
+				    Source = #"LOAD Argus SR Technique Europe"
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

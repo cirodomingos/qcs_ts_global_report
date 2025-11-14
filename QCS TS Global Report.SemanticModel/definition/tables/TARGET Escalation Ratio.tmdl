@@ -1,0 +1,38 @@
+table 'TARGET Escalation Ratio'
+	lineageTag: 5f47c825-52f3-4dca-8b7a-13b195cfeffa
+
+	measure 'min Escalation Ratio' = 0
+		formatString: 0\ %;-0\ %;0\ %
+		lineageTag: 2b3feae1-2d1a-4c45-bfd5-597e6790d77b
+
+	measure 'MAX Escalation Ratio' = 1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: de8a967d-88c4-4a2e-a1a8-425568d2a428
+
+	measure 'CLASS 1 Escalation Ratio' = 0.25
+		lineageTag: 1a867501-0138-46cf-adf4-7d9b986c7394
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CLASS 2 Escalation Ratio' = 0.4
+		lineageTag: 07441e42-c62a-451c-8140-930474b554a8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Column
+		formatString: 0
+		lineageTag: a65b830e-75cd-4b54-82ab-dee2fa9eba9b
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'TARGET Escalation Ratio' = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = c71de92f723742e38ec197a3651fa6bf
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "98be354c07e022c4b7a9",
+  "position": {
+    "x": 1003.7004405286343,
+    "y": 175.92951541850221,
+    "z": 8000,
+    "height": 512,
+    "width": 40.59911894273128,
+    "tabOrder": 15000
+  },
+  "visualGroup": {
+    "displayName": "Market Autonomy",
+    "groupMode": "ScaleMode"
+  }
+}

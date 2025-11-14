@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "591d763891580e64c23b",
+  "position": {
+    "x": 24.615384615384617,
+    "y": 500,
+    "z": 6000,
+    "height": 100,
+    "width": 700,
+    "tabOrder": 2000
+  },
+  "visualGroup": {
+    "displayName": "MHDV Rebuilding",
+    "groupMode": "ScaleMode"
+  }
+}

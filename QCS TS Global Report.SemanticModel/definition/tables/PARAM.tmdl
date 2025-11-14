@@ -1,0 +1,57 @@
+table PARAM
+	lineageTag: b39221bd-3578-403d-948e-4b3dbc23b23b
+
+	measure 'Active user' = USERPRINCIPALNAME()
+		lineageTag: 353afe49-3988-41e0-bf81-5561ce0ce10e
+
+	column 'Last update date'
+		dataType: dateTime
+		formatString: d mmmm yyyy
+		lineageTag: 251408b9-2696-462b-aa2a-50b0ab5e345c
+		summarizeBy: none
+		sourceColumn: Last update date
+
+		variation Variation
+			isDefault
+			relationship: edef94d8-8cc3-4e6b-aa23-850c8230ab74
+			defaultHierarchy: LocalDateTable_0c31c4e1-828c-46d3-8e43-44e255971f87.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Diff_days = TODAY() - 'PARAM'[Last update date]
+		formatString: General Date
+		lineageTag: 1d7d5657-b62b-4709-b934-7a66c9f05c33
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: b48286cd-0f85-4327-9892-67fad73b2cec
+			defaultHierarchy: LocalDateTable_81998c2b-75b7-4cde-a371-58cbbaa22a21.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Color = IF('PARAM'[Diff_days] < 8, "#BCDC95",IF('PARAM'[Diff_days]>7 && 'PARAM'[Diff_days] <31,"#FF7F00","#E3021B"))
+		lineageTag: 43c13308-8c4c-4e54-9c93-28e706876652
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PARAM = m
+		mode: import
+		source =
+				let
+				    Source = DateTime.Date(DateTimeZone.UtcNow()),
+				    #"Converted to Table" = #table(1, {{Source}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Last update date"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Last update date", type date}}, "FR-fr")
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

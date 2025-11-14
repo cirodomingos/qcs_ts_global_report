@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "9a1034a0c59e67113f61",
+  "position": {
+    "x": 789.85074626865674,
+    "y": 94.925373134328353,
+    "z": 8500,
+    "height": 85.074626865671632,
+    "width": 401.19402985074623,
+    "tabOrder": 2000
+  },
+  "visualGroup": {
+    "displayName": "Target Leadtime",
+    "groupMode": "ScaleMode"
+  },
+  "parentGroupName": "95041de5e8b9d0c93d55"
+}

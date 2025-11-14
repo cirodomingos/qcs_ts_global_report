@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "574eab512b539458e190",
+  "position": {
+    "x": 1032.987342920655,
+    "y": 30.972644376899698,
+    "z": 1000,
+    "height": 24.326004637514131,
+    "width": 248.03662694647539,
+    "tabOrder": 6000
+  },
+  "visualGroup": {
+    "displayName": "Last update date",
+    "groupMode": "ScaleMode"
+  },
+  "parentGroupName": "115b592882d0c69d65c5"
+}

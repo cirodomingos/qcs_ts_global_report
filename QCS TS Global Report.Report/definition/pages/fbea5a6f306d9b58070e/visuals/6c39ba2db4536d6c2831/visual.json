@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "6c39ba2db4536d6c2831",
+  "position": {
+    "x": 130.64177958987423,
+    "y": 390.44770784341841,
+    "z": 5000,
+    "height": 100.01634034604135,
+    "width": 700.15807421577324,
+    "tabOrder": 6000
+  },
+  "visualGroup": {
+    "displayName": "MHDV Service BEV",
+    "groupMode": "ScaleMode"
+  }
+}

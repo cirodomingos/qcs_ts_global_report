@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "a64ba490990619961134",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 1000,
+    "height": 100,
+    "width": 1280
+  },
+  "visualGroup": {
+    "displayName": "Bandeau Titre",
+    "groupMode": "ScaleMode"
+  }
+}

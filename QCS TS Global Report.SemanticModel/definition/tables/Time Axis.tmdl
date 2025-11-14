@@ -1,0 +1,49 @@
+table 'Time Axis'
+	lineageTag: eafc0d38-c3eb-46a4-a557-9fbc9574c542
+
+	column 'Time Axis'
+		dataType: string
+		lineageTag: 98c67fad-e68f-45a0-9167-bf6299f378d9
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Time Axis Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Time Axis Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time Axis Fields'
+		isHidden
+		lineageTag: 283669b8-dbfe-4665-b17c-c3b00ccda5f7
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Time Axis Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Time Axis Order'
+		isHidden
+		formatString: 0
+		lineageTag: bb6f45d1-fc6b-4fd5-a6aa-9389181c308d
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Time Axis' = calculated
+		mode: import
+		source =
+				{
+				    ("Creation Date", NAMEOF('Argus SR'[Creation Date]), 0),
+				    ("Close Date", NAMEOF('Argus SR'[Close Date]), 1)
+				}
+
+	annotation PBI_Id = f33a5b7198f24bdd8407a1362e97c403
+

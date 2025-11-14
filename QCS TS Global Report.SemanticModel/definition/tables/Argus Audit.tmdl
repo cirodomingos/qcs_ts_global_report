@@ -1,0 +1,173 @@
+table 'Argus Audit'
+	lineageTag: a7755f55-c18a-4f4c-899c-66634ff4ad7f
+
+	column 'SR Number'
+		dataType: string
+		lineageTag: f929f16d-7ec6-49c9-9d22-599e259d1543
+		summarizeBy: none
+		sourceColumn: SR Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Audit owner group'
+		dataType: string
+		lineageTag: 04a51772-0cbd-48fa-a5b1-d27d2ad267ff
+		summarizeBy: none
+		sourceColumn: Audit owner group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Audit Owner Full Name'
+		dataType: string
+		lineageTag: 54be0c79-555d-4883-b833-33709372cd07
+		summarizeBy: none
+		sourceColumn: Audit Owner Full Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Change Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 0f9cc443-c7d0-450e-8c75-bc0a05d68043
+		summarizeBy: none
+		sourceColumn: Change Date
+
+		variation Variation
+			isDefault
+			relationship: 5d1b1849-b8ee-4122-bbce-e7d328291580
+			defaultHierarchy: LocalDateTable_deeece99-9a38-4ca2-be81-3c10828f64f4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Total Time (hrs)'
+		dataType: double
+		lineageTag: bfc6bc6f-984e-4640-b652-1c0c257ceaad
+		summarizeBy: sum
+		sourceColumn: Total Time (hrs)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Accepted Time (hrs)'
+		dataType: double
+		lineageTag: 92bba5d9-b4bb-4e07-98d4-3069bda2f423
+		summarizeBy: sum
+		sourceColumn: Accepted Time (hrs)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Queued Time (hrs)'
+		dataType: double
+		lineageTag: c14fb476-d274-475e-bc49-b6959ba58b72
+		summarizeBy: sum
+		sourceColumn: Queued Time (hrs)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Waiting for correction'
+		dataType: double
+		lineageTag: c4942035-4ac5-4fe6-ac68-818e9c8ea9ac
+		summarizeBy: sum
+		sourceColumn: Waiting for correction
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Waiting for information'
+		dataType: double
+		lineageTag: 65e66138-f754-497a-b169-4ddc645a966f
+		summarizeBy: sum
+		sourceColumn: Waiting for information
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Waiting for customer'
+		dataType: double
+		lineageTag: 585fae81-5388-4902-a130-13881957da7d
+		summarizeBy: sum
+		sourceColumn: Waiting for customer
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Waiting for supplier'
+		dataType: double
+		lineageTag: cf111ba8-34d2-4164-8c04-44a9d37c723f
+		summarizeBy: sum
+		sourceColumn: Waiting for supplier
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'In progress'
+		dataType: double
+		lineageTag: 826335de-c189-404b-b8ec-7b735e868114
+		summarizeBy: sum
+		sourceColumn: In progress
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Audit Status'
+		dataType: string
+		lineageTag: 9a144498-3f52-486a-980f-07da4ab4a121
+		summarizeBy: none
+		sourceColumn: Audit Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Audit Substatus'
+		dataType: string
+		lineageTag: 1e5179ac-af98-4704-9723-14099d1bb650
+		summarizeBy: none
+		sourceColumn: Audit Substatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Waiting time'
+		dataType: double
+		lineageTag: 89c293d9-0022-4bbe-aa44-67c3b889b3c8
+		summarizeBy: sum
+		sourceColumn: Waiting time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Lead Time'
+		dataType: double
+		lineageTag: d7ef78b7-3e6c-4978-9fe3-c91e9a23c4a1
+		summarizeBy: sum
+		sourceColumn: Lead Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Argus Audit' = m
+		mode: import
+		queryGroup: '02 Final Tables'
+		source =
+				let
+				    Source = #"LOAD Argus Audit",
+				    #"REPLACE ALA EDIN --> ALAA EDIN" = Table.ReplaceValue(Source,"ALA EDDIN","ALAA EDDIN",Replacer.ReplaceText,{"Audit Owner Full Name"})
+				in
+				    #"REPLACE ALA EDIN --> ALAA EDIN"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

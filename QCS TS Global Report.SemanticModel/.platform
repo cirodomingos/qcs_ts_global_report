@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "QCS TS Global Report"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1a47bded-bee8-4dec-b2ad-da544d3a2fe0"
+  }
+}

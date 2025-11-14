@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "e93b88e3ee329de0b055",
+  "position": {
+    "x": 5,
+    "y": 179,
+    "z": 2000,
+    "height": 50,
+    "width": 966.63085188027617,
+    "tabOrder": 2000
+  },
+  "visualGroup": {
+    "displayName": "TITRE FILTRES",
+    "groupMode": "ScaleMode"
+  }
+}

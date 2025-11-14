@@ -1,0 +1,122 @@
+table Calendar
+	lineageTag: d970bfad-a5ca-4887-aed3-d95ebec9f388
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 72145397-1f1d-4786-b34b-94a68460408f
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 330a377a-e0bb-47a9-9667-f4716e62475a
+			defaultHierarchy: LocalDateTable_d0b27302-74ab-4530-8dc4-142d7fce56e0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: db2e2950-0190-44ff-9df6-845ebc52edc7
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: 251fdcfe-b9bc-4922-8560-4877620e9892
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of week'
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a4c648a-8f9b-444c-b0b0-1a7b765a9b7f
+		summarizeBy: sum
+		sourceColumn: Day of week
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week
+		dataType: int64
+		formatString: 0
+		lineageTag: cab8c20c-a16b-4f0b-a165-6912f853ad5a
+		summarizeBy: sum
+		sourceColumn: Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Month'
+		dataType: string
+		lineageTag: b586e9f5-1eb6-4575-aae2-2324f731fb3f
+		summarizeBy: none
+		sourceColumn: Year Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year-Month
+		dataType: string
+		lineageTag: 4cd0462b-a802-4ee5-bfbf-2a0be1d71cfd
+		summarizeBy: none
+		sourceColumn: Year-Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: string
+		lineageTag: 7dcd4f7b-a9c5-4613-b80b-223f1f09bf86
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearWeek
+		dataType: string
+		lineageTag: b0c89ea2-353b-4e9f-8c27-5a87ff17bed3
+		summarizeBy: none
+		sourceColumn: YearWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date (DD/MM/YYYY)'
+		dataType: string
+		lineageTag: d69b123d-efbb-4e85-a0e1-6576f721385a
+		summarizeBy: none
+		sourceColumn: Date (DD/MM/YYYY)
+
+		annotation SummarizationSetBy = Automatic
+
+	column IB
+		dataType: string
+		lineageTag: e1d14f35-145f-497f-88ed-3210f74380ba
+		summarizeBy: none
+		sourceColumn: IB
+
+		annotation SummarizationSetBy = Automatic
+
+	column YYYYMM = FORMAT('Calendar'[Date], "YYYYMM")
+		lineageTag: 3dc13851-eee3-4472-908a-8b1b7b1dfd72
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar = m
+		mode: import
+		queryGroup: '02 Final Tables'
+		source =
+				let
+				    Source = #"LOAD Calendar"
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,562 @@
+table 'Argus SR'
+	lineageTag: 09ce3e44-1031-4e20-bc84-f5f5de8272df
+
+	measure 'Nb SR' = DISTINCTCOUNT('Argus SR'[SR Number])
+		formatString: #,0
+		lineageTag: 51dfc5a8-88a7-4c42-9743-993f13ec176d
+
+	measure 'Nb SR Opened' = DISTINCTCOUNT('Argus SR'[SR Number])
+		formatString: #,0
+		lineageTag: 7d878ba2-6156-41ef-a7d3-be7494f88797
+
+	measure 'Nb SR Closed' = CALCULATE( DISTINCTCOUNT('Argus SR'[SR Number]), 'Argus SR'[Status]="Closed")
+		formatString: #,0
+		lineageTag: b86b5861-76b0-454a-adbe-65dfdff0b000
+
+	measure '% SR Closed' = DIVIDE([Nb SR Closed], [Nb SR Opened])
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: b3f093a7-7f98-473e-b508-79eabb7c23c9
+
+	measure '% SR Closed over target' = IF([% SR Closed]>= 'Grey area ratio'[Grey area ratio Value], 'Argus SR'[% SR Closed], BLANK())
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 93c01c85-5f3f-4160-9d85-82d988658f17
+
+	measure 'Average Leadtime (h) ARGUS SR' = AVERAGEX(SUMMARIZE('Argus Audit', 'Argus Audit'[SR Number], "Total Leadtime", SUM('Argus Audit'[Lead Time])), [Total Leadtime])
+		lineageTag: 67b2bd0f-a32a-40bb-99bb-8cb79556765f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'NEW Nb SR Opened' = ```
+			
+			CALCULATE(
+			    COUNTROWS('Argus SR'),
+			    USERELATIONSHIP('Argus SR'[Creation Date linked to Calendar], 'Calendar'[Date])
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 21c37489-1b2e-4e68-914c-6d285ff1ecf3
+
+	measure 'NEW Nb SR Closed' =
+			
+			CALCULATE(
+			    COUNTROWS('Argus SR'),
+			    'Argus SR'[Status]="Closed",
+			    USERELATIONSHIP('Argus SR'[Creation Date linked to Calendar], 'Calendar'[Date])
+			)
+		formatString: #,0
+		lineageTag: 7fc23988-3d05-4148-8137-26d59bd944c4
+
+	measure 'NEW % SR Closed' = DIVIDE([NEW Nb SR Closed], [NEW Nb SR Opened], 0)
+		formatString: 0.0\ %;-0.0\ %;0.0\ %
+		lineageTag: 2d2c3749-87c0-4113-b71b-9b35909439d7
+
+	measure 'Nb SR Created cumul' = ```
+			
+			VAR LastDateInContext = MAX('Argus SR'[Close Date])
+			RETURN
+			CALCULATE(
+			    COUNTROWS('Argus SR'),
+			    FILTER(
+			        ALL('Argus SR'),
+			        'Argus SR'[Creation Date] <= LastDateInContext
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: c18ae1eb-2bb1-4371-97bd-445f19584323
+
+	column 'SR Number'
+		dataType: string
+		lineageTag: 144dc77c-75f2-455d-8a51-1aff6b3a5d43
+		summarizeBy: none
+		sourceColumn: SR Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Summary
+		dataType: string
+		lineageTag: b5946639-dc6b-4922-b472-64e30b0d80da
+		summarizeBy: none
+		sourceColumn: Summary
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Chassis Id'
+		dataType: string
+		lineageTag: 11413062-3836-4d99-8709-b4a97c9c2c5e
+		summarizeBy: none
+		sourceColumn: Chassis Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cust-Rep Dealer Country'
+		dataType: string
+		lineageTag: 6b08c6f5-6535-473f-9471-cc1289b64bce
+		summarizeBy: none
+		sourceColumn: Cust-Rep Dealer Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Creation Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 04d27096-545f-49a2-9fea-f6e5af835032
+		summarizeBy: none
+		sourceColumn: Creation Date
+
+		variation Variation
+			isDefault
+			relationship: 828cbb27-cffd-4b4c-9379-d0018fc67ced
+			defaultHierarchy: LocalDateTable_9eb60f43-c60b-43d2-b42c-cd4c2f3c053c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'App Service'
+		dataType: string
+		lineageTag: e7ce00f2-1313-44ef-8f9d-5110a2da484e
+		summarizeBy: none
+		sourceColumn: App Service
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Class'
+		dataType: string
+		lineageTag: fe00ff9b-3372-417f-8a80-5421870308d0
+		summarizeBy: none
+		sourceColumn: Product Class
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Function Group'
+		dataType: string
+		lineageTag: 5a3f0841-900f-4183-b0b3-1c118615d545
+		summarizeBy: none
+		sourceColumn: Function Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column Severity
+		dataType: string
+		lineageTag: b60a31c9-dc41-4670-b334-9e5395a302f8
+		summarizeBy: none
+		sourceColumn: Severity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Close Date'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: ef3af4a0-f87f-4a90-8bad-7d746538d722
+		summarizeBy: none
+		sourceColumn: Close Date
+
+		variation Variation
+			isDefault
+			relationship: 378bb1ed-93b1-402b-9b86-5542f3bf7233
+			defaultHierarchy: LocalDateTable_578fd245-435c-423c-a0e1-17c33b35a101.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Sub Area'
+		dataType: string
+		lineageTag: cbe8fee6-fd13-450c-853c-f25e8db3c5da
+		summarizeBy: none
+		sourceColumn: Sub Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Veh Prod Name'
+		dataType: string
+		lineageTag: bba66651-357a-4b2d-8980-4f43fe0d0f0d
+		summarizeBy: none
+		sourceColumn: Veh Prod Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Language
+		dataType: string
+		lineageTag: c1e4d0a2-bdc6-4717-a84b-6b5e4de3bcb4
+		summarizeBy: none
+		sourceColumn: Language
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SR Type'
+		dataType: string
+		lineageTag: 87e4d076-cf1f-41fd-aa92-212611ad7f3e
+		summarizeBy: none
+		sourceColumn: SR Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vehicle Type'
+		dataType: string
+		lineageTag: fa6c44eb-e327-472a-bdd6-638a207b161b
+		summarizeBy: none
+		sourceColumn: Vehicle Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column LCV/VI
+		dataType: string
+		lineageTag: 975fab2d-2fb0-41c3-9d2e-002917f8ae49
+		summarizeBy: none
+		sourceColumn: LCV/VI
+
+		annotation SummarizationSetBy = Automatic
+
+	column Commodity
+		dataType: string
+		lineageTag: 5bdfae8e-9355-48d5-9c58-787d69208dd1
+		summarizeBy: none
+		sourceColumn: Commodity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Urgent case'
+		dataType: string
+		lineageTag: 73637c3e-e51c-46d4-928a-8a1b8dee0113
+		summarizeBy: none
+		sourceColumn: Urgent case
+
+		annotation SummarizationSetBy = Automatic
+
+	column Variant
+		dataType: string
+		lineageTag: 0866c432-e003-4d51-a9ea-cfb765589a93
+		summarizeBy: none
+		sourceColumn: Variant
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Argus Company'
+		dataType: string
+		lineageTag: 953bec6a-f707-4d4f-8ee9-5b6c87924552
+		summarizeBy: none
+		sourceColumn: Argus Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column Status
+		dataType: string
+		lineageTag: 25745821-387d-4f75-b506-3e7b99984e2a
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column Substatus
+		dataType: string
+		lineageTag: 47e5c062-c65f-42e4-88d5-3afde653d841
+		summarizeBy: none
+		sourceColumn: Substatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Function Group Description'
+		dataType: string
+		lineageTag: 42e58d99-90fc-435c-bf04-af8292ff6155
+		summarizeBy: none
+		sourceColumn: Function Group Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cust-Rep Dealer Name'
+		dataType: string
+		lineageTag: 8bf0a920-0acd-4f94-9ac0-f27a9c4e0db9
+		summarizeBy: none
+		sourceColumn: Cust-Rep Dealer Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cust-Rep Dealer Delivery Importer Id'
+		dataType: string
+		lineageTag: 24de1077-2527-45a9-acf2-27838a49d6a8
+		summarizeBy: none
+		sourceColumn: Cust-Rep Dealer Delivery Importer Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column '# Escalations from 2  to 3'
+		dataType: int64
+		formatString: 0
+		lineageTag: df5a3fde-5fa0-40fd-aa1a-03e0e776968a
+		summarizeBy: sum
+		sourceColumn: # Escalations from 2  to 3
+
+		annotation SummarizationSetBy = Automatic
+
+	column '# Escalations from 1  to 3'
+		dataType: int64
+		formatString: 0
+		lineageTag: a9202127-ef86-4354-8836-b2d15d2993d9
+		summarizeBy: sum
+		sourceColumn: # Escalations from 1  to 3
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Creation Date YYYY-Mmm' = FORMAT('Argus SR'[Creation Date], "YYYY-Mmm")
+		lineageTag: 4b19b011-1e66-4757-84b5-4956011c5791
+		summarizeBy: none
+		sortByColumn: 'Creation Date YYYY-MM'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Creation Date YYYY-MM' = FORMAT('Argus SR'[Creation Date], "YYYY-MM")
+		lineageTag: 362a72ce-ed34-4285-a468-b5ad6187df44
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Vin Number'
+		dataType: string
+		lineageTag: 1ac5b906-a07b-4b80-957d-1a08b6d6fa58
+		summarizeBy: none
+		sourceColumn: Vin Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SR Area'
+		dataType: string
+		lineageTag: ecc5e5b4-b49a-4b81-b63a-26fbd4dbd8c9
+		summarizeBy: none
+		sourceColumn: SR Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Owned by group'
+		dataType: string
+		lineageTag: 802e37a4-f140-448d-8616-35e34a5b19b9
+		summarizeBy: none
+		sourceColumn: Owned by group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Owner Full Name'
+		dataType: string
+		lineageTag: 3d73ed48-227e-412e-84e8-25a226ca822a
+		summarizeBy: none
+		sourceColumn: Owner Full Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column MarketingTypeName
+		dataType: string
+		lineageTag: 599c078c-bee3-467f-a322-68693e1cae97
+		summarizeBy: none
+		sourceColumn: MarketingTypeName
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Audit Time'
+		dataType: double
+		lineageTag: b1074d4a-a826-49da-a551-c4f0ba8487e1
+		summarizeBy: sum
+		sourceColumn: Total Audit Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Total Audit Accepted Time'
+		dataType: double
+		lineageTag: d5ef1458-8e3e-4bf2-a037-b2bbafb46e82
+		summarizeBy: sum
+		sourceColumn: Total Audit Accepted Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Total Audit Queued Time'
+		dataType: double
+		lineageTag: 5e64e5e5-7be3-424c-9c8f-d890ecafdf2c
+		summarizeBy: sum
+		sourceColumn: Total Audit Queued Time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Audit Accepted Waiting for customer'
+		dataType: double
+		lineageTag: 00f954a6-8824-47fd-854a-1d8756ec3853
+		summarizeBy: sum
+		sourceColumn: Audit Accepted Waiting for customer
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Audit Accepted Waiting for info'
+		dataType: double
+		lineageTag: eb741056-0741-420a-9be1-244162c773f5
+		summarizeBy: sum
+		sourceColumn: Audit Accepted Waiting for info
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Audit Accepted Waiting for correction'
+		dataType: double
+		lineageTag: 36162935-f346-4d9f-a304-3af408ab855f
+		summarizeBy: sum
+		sourceColumn: Audit Accepted Waiting for correction
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Audit Accepted Waiting for supplier'
+		dataType: double
+		lineageTag: e320d7ab-3f85-461e-82e2-92e6c4af333d
+		summarizeBy: sum
+		sourceColumn: Audit Accepted Waiting for supplier
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Audit Accepted in Progress'
+		dataType: double
+		lineageTag: b1200cf9-5c81-4b27-8e35-5b0abe7f0722
+		summarizeBy: sum
+		sourceColumn: Audit Accepted in Progress
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Brand
+		dataType: string
+		lineageTag: aaaca45e-1064-41ad-b8fc-1497dd211e47
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Range
+		dataType: string
+		lineageTag: edd2499b-83ae-4554-a4e7-7ba2afc2b975
+		summarizeBy: none
+		sourceColumn: Range
+
+		annotation SummarizationSetBy = Automatic
+
+	column FGR1
+		dataType: string
+		lineageTag: eb911c26-c15a-4b96-9030-201880c236cc
+		summarizeBy: none
+		sourceColumn: FGR1
+
+		annotation SummarizationSetBy = Automatic
+
+	column FGR2
+		dataType: string
+		lineageTag: 5ad7b3a1-572b-47c6-86e8-80281c3f730c
+		summarizeBy: none
+		sourceColumn: FGR2
+
+		annotation SummarizationSetBy = Automatic
+
+	column FGR3
+		dataType: string
+		lineageTag: 96b9d805-86b2-4477-8624-af9abda3f2ce
+		summarizeBy: none
+		sourceColumn: FGR3
+
+		annotation SummarizationSetBy = Automatic
+
+	column '# Escalations from 1 to 2'
+		dataType: int64
+		formatString: 0
+		lineageTag: b0266c1b-8e3b-483d-b9f1-980aefca16a4
+		summarizeBy: sum
+		sourceColumn: # Escalations from 1 to 2
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Close date YYYYMM' = FORMAT('Argus SR'[Close Date], "YYYYMM")
+		lineageTag: 412946a4-0198-42b3-9add-44f0028f2731
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Is Closed' = IF('Argus SR'[Close Date]=BLANK(), 0, 1)
+		formatString: 0
+		lineageTag: d9a5c623-84e4-483f-8d98-b423f286b12d
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Leadtime below target' =
+			IF([Average Leadtime (h)] <= [MAX Leadtime target], 1, 0)
+			--IF([Average Leadtime (h) ARGUS SR] <= [MAX Leadtime target], 1, 0))
+		lineageTag: 5f0e6297-b6c2-478f-bcde-8dc9b11d1043
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SR Closed with Leadtime below target' = IF('Argus SR'[Is Closed]=1 && 'Argus SR'[Leadtime below target]=1, 1, 0)
+		formatString: 0
+		lineageTag: 6d07ccde-c0be-42a0-901a-a56803e66de2
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Creation Date linked to Calendar'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cb6d6b76-2a4a-4fe3-aea2-53b7b4174c4f
+		summarizeBy: none
+		sourceColumn: Creation Date linked to Calendar
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	hierarchy 'FGR1 Hierarchy'
+		lineageTag: 938b9199-141b-4a31-879b-9e259fa37bc3
+
+		level FGR1
+			lineageTag: 9dfc0823-68e0-4844-9987-1a12ea9d2fe0
+			column: FGR1
+
+		level FGR2
+			lineageTag: 5e227f2c-6a08-4b20-b404-1b5799222c8d
+			column: FGR2
+
+		level FGR3
+			lineageTag: 7e7823c0-829c-4b92-b58f-c859bb379c42
+			column: FGR3
+
+		level 'Function Group'
+			lineageTag: 37318cf5-9ed4-4a3b-9d75-c3ead130a1b7
+			column: 'Function Group'
+
+	partition 'Argus SR' = m
+		mode: import
+		queryGroup: '02 Final Tables'
+		source =
+				let
+				    Source = #"LOAD Argus SR",
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"SR Number", type text}}),
+				    #"ADD Creation date linked to Calendar" = Table.DuplicateColumn(#"Changed Type", "Creation Date", "Creation Date linked to Calendar")
+				in
+				    #"ADD Creation date linked to Calendar"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

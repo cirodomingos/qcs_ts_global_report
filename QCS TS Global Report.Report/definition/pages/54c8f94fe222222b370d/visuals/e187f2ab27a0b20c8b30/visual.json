@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.3.0/schema.json",
+  "name": "e187f2ab27a0b20c8b30",
+  "position": {
+    "x": 13,
+    "y": 239.81557844160926,
+    "z": 5000,
+    "height": 118.67474048442909,
+    "width": 1240.2472127925305,
+    "tabOrder": 2000
+  },
+  "visualGroup": {
+    "displayName": "Bloc KPIs",
+    "groupMode": "ScaleMode"
+  }
+}

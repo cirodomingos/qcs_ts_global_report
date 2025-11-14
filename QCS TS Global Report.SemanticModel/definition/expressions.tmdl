@@ -1,0 +1,134 @@
+expression 'LOAD Argus SR' =
+		let
+		    Source = PowerBI.Dataflows(null),
+		    #"95ab79ef-15b4-47f1-b81e-aa41be38f20a" = Source{[workspaceId="95ab79ef-15b4-47f1-b81e-aa41be38f20a"]}[Data],
+		    #"321a6443-b28e-4fcd-b5a5-a5bb6171348b" = #"95ab79ef-15b4-47f1-b81e-aa41be38f20a"{[dataflowId="321a6443-b28e-4fcd-b5a5-a5bb6171348b"]}[Data],
+		    #"Argus SR TSE" = #"321a6443-b28e-4fcd-b5a5-a5bb6171348b"{[entity="Argus SR TSE"]}[Data]
+		in
+		    #"Argus SR TSE"
+	lineageTag: 3f40e08b-4b85-4109-b09d-db66be0522a7
+	queryGroup: '00 LOAD Tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'LOAD Calendar' =
+		let
+		    Source = PowerBI.Dataflows(null),
+		    #"532b3827-f788-4d6d-b50f-e9638e34471c" = Source{[workspaceId="532b3827-f788-4d6d-b50f-e9638e34471c"]}[Data],
+		    #"0606b040-db6f-487f-ba46-8b2b0f925332" = #"532b3827-f788-4d6d-b50f-e9638e34471c"{[dataflowId="0606b040-db6f-487f-ba46-8b2b0f925332"]}[Data],
+		    Calendrier = #"0606b040-db6f-487f-ba46-8b2b0f925332"{[entity="Calendrier"]}[Data]
+		in
+		    Calendrier
+	lineageTag: e5afb6de-aee8-4df9-b130-14dc1cd00888
+	queryGroup: '00 LOAD Tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'LOAD TARGET Cases handled' =
+		let
+		    Source = PowerBI.Dataflows(null),
+		    #"95ab79ef-15b4-47f1-b81e-aa41be38f20a" = Source{[workspaceId="95ab79ef-15b4-47f1-b81e-aa41be38f20a"]}[Data],
+		    #"321a6443-b28e-4fcd-b5a5-a5bb6171348b" = #"95ab79ef-15b4-47f1-b81e-aa41be38f20a"{[dataflowId="321a6443-b28e-4fcd-b5a5-a5bb6171348b"]}[Data],
+		    #"Cases handled target" = #"321a6443-b28e-4fcd-b5a5-a5bb6171348b"{[entity="Cases handled target"]}[Data]
+		in
+		    #"Cases handled target"
+	lineageTag: cbbbd81c-cc6e-4b4b-b34f-e4bde88f3dc6
+	queryGroup: '00 LOAD Tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'LOAD TARGET Leadtime' =
+		let
+		    Source = PowerBI.Dataflows(null),
+		    #"95ab79ef-15b4-47f1-b81e-aa41be38f20a" = Source{[workspaceId="95ab79ef-15b4-47f1-b81e-aa41be38f20a"]}[Data],
+		    #"321a6443-b28e-4fcd-b5a5-a5bb6171348b" = #"95ab79ef-15b4-47f1-b81e-aa41be38f20a"{[dataflowId="321a6443-b28e-4fcd-b5a5-a5bb6171348b"]}[Data],
+		    #"Leadtime target" = #"321a6443-b28e-4fcd-b5a5-a5bb6171348b"{[entity="Leadtime target"]}[Data]
+		in
+		    #"Leadtime target"
+	lineageTag: fb34a786-3be1-4974-8dca-28be491d683d
+	queryGroup: '00 LOAD Tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'LOAD Teams' =
+		let
+		    Source = PowerBI.Dataflows(null),
+		    #"95ab79ef-15b4-47f1-b81e-aa41be38f20a" = Source{[workspaceId="95ab79ef-15b4-47f1-b81e-aa41be38f20a"]}[Data],
+		    #"0a4c3450-526c-4590-b8ce-596a25a0538c" = #"95ab79ef-15b4-47f1-b81e-aa41be38f20a"{[dataflowId="0a4c3450-526c-4590-b8ce-596a25a0538c"]}[Data],
+		    Teams1 = #"0a4c3450-526c-4590-b8ce-596a25a0538c"{[entity="Teams"]}[Data]
+		in
+		    Teams1
+	lineageTag: 1c334b85-e99c-4ae2-b663-666cea5d0e90
+	queryGroup: '00 LOAD Tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'LOAD Argus Audit' =
+		let
+		    Source = PowerBI.Dataflows(null),
+		    #"95ab79ef-15b4-47f1-b81e-aa41be38f20a" = Source{[workspaceId="95ab79ef-15b4-47f1-b81e-aa41be38f20a"]}[Data],
+		    #"321a6443-b28e-4fcd-b5a5-a5bb6171348b" = #"95ab79ef-15b4-47f1-b81e-aa41be38f20a"{[dataflowId="321a6443-b28e-4fcd-b5a5-a5bb6171348b"]}[Data],
+		    #"Argus Audit TSE" = #"321a6443-b28e-4fcd-b5a5-a5bb6171348b"{[entity="Argus Audit TSE"]}[Data]
+		in
+		    #"Argus Audit TSE"
+	lineageTag: ce5e2c1f-e2c3-468e-8824-1f7fa13750d9
+	queryGroup: '00 LOAD Tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'LOAD Technical Service Members' =
+		let
+		    Source = PowerBI.Dataflows(null),
+		    #"95ab79ef-15b4-47f1-b81e-aa41be38f20a" = Source{[workspaceId="95ab79ef-15b4-47f1-b81e-aa41be38f20a"]}[Data],
+		    #"0a4c3450-526c-4590-b8ce-596a25a0538c" = #"95ab79ef-15b4-47f1-b81e-aa41be38f20a"{[dataflowId="0a4c3450-526c-4590-b8ce-596a25a0538c"]}[Data],
+		    #"Technical Service Members" = #"0a4c3450-526c-4590-b8ce-596a25a0538c"{[entity="Technical Service Members"]}[Data]
+		in
+		    #"Technical Service Members"
+	lineageTag: 1048bb0b-1c87-4092-b927-148549e20b66
+	queryGroup: '00 LOAD Tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'LOAD Market' =
+		let
+		    Source = PowerBI.Dataflows(null),
+		    #"95ab79ef-15b4-47f1-b81e-aa41be38f20a" = Source{[workspaceId="95ab79ef-15b4-47f1-b81e-aa41be38f20a"]}[Data],
+		    #"0a4c3450-526c-4590-b8ce-596a25a0538c" = #"95ab79ef-15b4-47f1-b81e-aa41be38f20a"{[dataflowId="0a4c3450-526c-4590-b8ce-596a25a0538c"]}[Data],
+		    Vehicle = #"0a4c3450-526c-4590-b8ce-596a25a0538c"{[entity="Country"]}[Data]
+		in
+		    Vehicle
+	lineageTag: 2c4cd81c-c6d2-44e0-8623-e2e6ba45d95b
+	queryGroup: '00 LOAD Tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression 'LOAD Argus SR Technique Europe' =
+		let
+		    Source = Databricks.Catalogs("adb-4466229958978098.18.azuredatabricks.net", "sql/protocolv1/o/4466229958978098/0627-103159-a19y9p0z", [Catalog="hive_metastore", Database="ds_user_qcs_lyon", EnableAutomaticProxyDiscovery=null]),
+		    argus_sr_technique_europe_ds_user_qcs_lyon_hive_metastore = Source{[Item="argus_sr_technique_europe",Schema="ds_user_qcs_lyon",Catalog="hive_metastore"]}[Data],
+		    #"Changed Type" = Table.TransformColumnTypes(argus_sr_technique_europe_ds_user_qcs_lyon_hive_metastore,{{"Escalation Ratio", Percentage.Type}})
+		in
+		    #"Changed Type"
+	lineageTag: 8f80db85-a81b-47e9-8402-1c77419b930d
+	queryGroup: '00 LOAD Tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

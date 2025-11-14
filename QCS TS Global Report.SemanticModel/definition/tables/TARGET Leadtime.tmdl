@@ -1,0 +1,46 @@
+table 'TARGET Leadtime'
+	lineageTag: a7144f2f-5907-4687-b623-9728782b2ae3
+
+	measure 'TARGET min Lead time' = MIN('Argus Audit'[Lead Time]) * 0.8
+		lineageTag: cf779467-2198-4803-a906-88804c8aee3d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CLASS 1 Leadtime' = MAX('TARGET Leadtime'[Leadtime target (h)])
+		formatString: 0
+		lineageTag: 73d5e93c-674b-458a-9503-433d68260aa2
+
+	measure 'CLASS 2 Leadtime' = 70
+		formatString: 0
+		lineageTag: b7cfe520-1e01-48a5-b970-28e4fec3558b
+
+	measure 'min Leadtime' = 0
+		formatString: 0
+		lineageTag: 2b7e2c95-1556-483f-9f14-3c18ce1632d4
+
+	measure 'MAX Leadtime' = 150
+		formatString: 0
+		lineageTag: 99a88a16-2a86-48d9-bb36-0443a1551ee2
+
+	column 'Leadtime target (h)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a2d0e1f-cb27-4aaa-aa89-54faca867c4c
+		summarizeBy: sum
+		sourceColumn: Leadtime target (h)
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'TARGET Leadtime' = m
+		mode: import
+		queryGroup: '02 Final Tables'
+		source =
+				let
+				    Source = #"LOAD TARGET Leadtime"
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
